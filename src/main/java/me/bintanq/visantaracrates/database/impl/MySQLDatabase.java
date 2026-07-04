@@ -106,13 +106,4 @@ public class MySQLDatabase extends AbstractDatabase {
                 last_seen     = VALUES(last_seen)
         """;
     }
-
-    @Override
-    protected String upsertAddKeysSql() {
-        return """
-            INSERT INTO qc_virtual_keys (uuid, key_id, amount)
-            VALUES (?, ?, ?)
-            ON DUPLICATE KEY UPDATE amount = amount + VALUES(amount)
-        """;
-    }
 }

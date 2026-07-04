@@ -162,12 +162,6 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
             MessageManager.send(sender, "info-no-location", "{crate}", crate.getId());
         }
 
-        if (!crate.getRequiredKeys().isEmpty()) {
-            MessageManager.send(sender, "info-keys-header");
-            crate.getRequiredKeys().forEach(k -> MessageManager.send(sender, "info-key-entry",
-                    "{key}", k.getKeyId(), "{amount}", String.valueOf(k.getAmount()),
-                    "{type}", k.getType().name().toLowerCase()));
-        }
     }
 
     private void cmdList(CommandSender sender) {
@@ -179,7 +173,7 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
                 "{name}", c.getDisplayName() != null ? c.getDisplayName() : c.getId(),
                 "{status}", c.isEnabled() ? MessageManager.getRaw("list-status-on") : MessageManager.getRaw("list-status-off"),
                 "{rewards}", String.valueOf(c.getRewards().size()),
-                "{keys}", String.valueOf(c.getRequiredKeys().size())));
+                "{keys}", "0"));
     }
 
     private void cmdSetLoc(CommandSender sender, String[] args) {

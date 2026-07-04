@@ -88,14 +88,4 @@ public class SQLiteDatabase extends AbstractDatabase {
                 last_seen     = excluded.last_seen
         """;
     }
-
-    @Override
-    protected String upsertAddKeysSql() {
-        return """
-            INSERT INTO qc_virtual_keys (uuid, key_id, amount)
-            VALUES (?, ?, ?)
-            ON CONFLICT(uuid, key_id) DO UPDATE SET
-                amount = qc_virtual_keys.amount + excluded.amount
-        """;
-    }
 }

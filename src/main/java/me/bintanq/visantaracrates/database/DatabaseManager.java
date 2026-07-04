@@ -52,24 +52,6 @@ public interface DatabaseManager {
      */
     CompletableFuture<Void> savePlayerDataBatch(List<PlayerData> batch);
 
-    /* ─────────────────────── Virtual Keys ─────────────────────── */
-
-    /**
-     * Adds {@code amount} virtual keys of {@code keyId} to the player.
-     * Thread-safe via DB-level atomic increment.
-     */
-    CompletableFuture<Void> addVirtualKeys(UUID uuid, String keyId, int amount);
-
-    /**
-     * Removes {@code amount} virtual keys. Returns false via future if balance insufficient.
-     */
-    CompletableFuture<Boolean> removeVirtualKeys(UUID uuid, String keyId, int amount);
-
-    /**
-     * Returns the current virtual key balance for a specific key type.
-     */
-    CompletableFuture<Integer> getVirtualKeys(UUID uuid, String keyId);
-
     /* ─────────────────────── Logs ─────────────────────── */
 
     /**
@@ -100,6 +82,4 @@ public interface DatabaseManager {
      * Returns total opening count for a crate (web dashboard stats).
      */
     CompletableFuture<Long> getCrateOpeningCount(String crateId);
-
-    CompletableFuture<Boolean> removeVirtualKeysBatch(UUID uuid, String keyId, int totalAmount);
 }

@@ -32,25 +32,7 @@ public class Crate {
     @SerializedName("locations")
     private List<SerializableLocation> locations = new ArrayList<>();
 
-    /** Required keys to open this crate. Supports multi-key combos. */
-    @SerializedName("requiredKeys")
-    private List<KeyRequirement> requiredKeys = new ArrayList<>();
 
-    /**
-     * Key requirement mode:
-     *   ALL — player must have ALL listed keys (default, backward-compatible).
-     *   ANY — player needs only ONE of the listed keys.
-     */
-    @SerializedName("keyRequirementMode")
-    private KeyRequirementMode keyRequirementMode = KeyRequirementMode.ALL;
-
-    /**
-     * Animation overrides per key.
-     * Map of keyId → GuiAnimationType.
-     * When a specific key is consumed, the animation type is overridden.
-     */
-    @SerializedName("animationOverrides")
-    private Map<String, GuiAnimationType> animationOverrides = new HashMap<>();
 
     /** All possible rewards from this crate. */
     @SerializedName("rewards")
@@ -640,45 +622,8 @@ public class Crate {
         public GUIButton getRerollSlotItem() { return rerollSlotItem != null ? rerollSlotItem : getGuiFiller(); }
     }
 
-    /* ─────────────────────── Inner Classes ─────────────────────── */
-
-    public static class KeyRequirement {
-        @SerializedName("keyId")
-        private String keyId;
-
-        @SerializedName("amount")
-        private int amount = 1;
-
-        @SerializedName("type")
-        private KeyType type = KeyType.VIRTUAL;
-
-        public KeyRequirement() {}
-        public KeyRequirement(String keyId, int amount, KeyType type) {
-            this.keyId  = keyId;
-            this.amount = amount;
-            this.type   = type;
-        }
-
-        public String getKeyId() { return keyId; }
-        public int getAmount() { return amount; }
-        public KeyType getType() { return type; }
-    }
-
     public enum GuiAnimationType {
         ROULETTE, SHUFFLER, BOUNDARY, SINGLE_SPIN, FLICKER, CHOICE
-    }
-
-    public enum KeyRequirementMode {
-        ALL, ANY
-    }
-
-    public enum KeyType {
-        VIRTUAL,
-        PHYSICAL,
-        MMOITEMS,
-        ITEMSADDER,
-        ORAXEN,
-        NEXO
     }
 
     public static class PityConfig {
@@ -789,10 +734,7 @@ public class Crate {
     public double getKnockbackStrength() { return Math.max(0, Math.min(knockbackStrength, 3.0)); }
     public void setKnockbackStrength(double v) { this.knockbackStrength = v; }
 
-    public List<KeyRequirement> getRequiredKeys() { return requiredKeys; }
-    public KeyRequirementMode getKeyRequirementMode() { return keyRequirementMode != null ? keyRequirementMode : KeyRequirementMode.ALL; }
-    public void setKeyRequirementMode(KeyRequirementMode mode) { this.keyRequirementMode = mode; }
-    public Map<String, GuiAnimationType> getAnimationOverrides() { return animationOverrides != null ? animationOverrides : new HashMap<>(); }
+
     public List<Reward> getRewards() { return rewards; }
 
     public long getCooldownMs() { return cooldownMs; }

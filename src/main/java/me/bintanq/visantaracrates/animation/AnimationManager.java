@@ -73,13 +73,6 @@ public class AnimationManager {
     }
 
     private CrateAnimation resolveAnimation(Crate crate, String consumedKeyId) {
-        if (consumedKeyId != null && crate.getAnimationOverrides() != null) {
-            Crate.GuiAnimationType override = crate.getAnimationOverrides().get(consumedKeyId);
-            if (override != null) {
-                return animationCache.getOrDefault(override,
-                        animationCache.get(Crate.GuiAnimationType.ROULETTE));
-            }
-        }
         return animationCache.getOrDefault(crate.getGuiAnimation(),
                 animationCache.get(Crate.GuiAnimationType.ROULETTE));
     }

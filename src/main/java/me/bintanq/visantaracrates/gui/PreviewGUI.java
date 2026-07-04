@@ -200,14 +200,7 @@ public class PreviewGUI {
         String rarityColor = plugin.getRarityManager().getColor(reward.getRarity());
         String rarityName = plugin.getRarityManager().get(reward.getRarity()).getDisplayName();
 
-        StringBuilder keysBuilder = new StringBuilder();
-        if (crate.getRequiredKeys() != null) {
-            for (Crate.KeyRequirement req : crate.getRequiredKeys()) {
-                if (keysBuilder.length() > 0) keysBuilder.append(", ");
-                keysBuilder.append(req.getAmount()).append("x ").append(req.getKeyId());
-            }
-        }
-        String keysStr = keysBuilder.toString();
+        String keysStr = "";
 
         for (String line : templateLines) {
             if (line.contains("%reward_lore%")) {

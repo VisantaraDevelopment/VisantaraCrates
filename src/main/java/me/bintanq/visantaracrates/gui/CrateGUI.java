@@ -160,13 +160,7 @@ public class CrateGUI {
             if (this.state != GUIState.CLOSED) return;
 
             if (isBlockClick) {
-                // Consume key now when they actually click Open in the GUI
-                String consumed = plugin.getKeyManager().consumeKeys(player, crate);
-                if (consumed == null) {
-                    player.sendMessage(colorize("&cYou do not have the required key to open this crate."));
-                    player.closeInventory();
-                    return;
-                }
+                String consumed = "physical";
                 dummySession.getMetadata().put("consumedKeyId", consumed);
             }
 

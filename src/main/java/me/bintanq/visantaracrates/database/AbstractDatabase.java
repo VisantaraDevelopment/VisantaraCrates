@@ -37,14 +37,6 @@ public abstract class AbstractDatabase implements DatabaseManager {
                 )
             """);
                 stmt.execute("""
-                CREATE TABLE IF NOT EXISTS qc_virtual_keys (
-                    uuid            VARCHAR(36)  NOT NULL,
-                    key_id          VARCHAR(64)  NOT NULL,
-                    amount          INT          NOT NULL DEFAULT 0,
-                    PRIMARY KEY (uuid, key_id)
-                )
-            """);
-                stmt.execute("""
                 CREATE TABLE IF NOT EXISTS qc_crate_logs (
                     id              INTEGER      PRIMARY KEY """ + autoIncrementSyntax() + """
                     ,
@@ -64,11 +56,6 @@ public abstract class AbstractDatabase implements DatabaseManager {
                 stmt.execute("CREATE INDEX IF NOT EXISTS idx_logs_uuid  ON qc_crate_logs(uuid)");
                 stmt.execute("CREATE INDEX IF NOT EXISTS idx_logs_crate ON qc_crate_logs(crate_id)");
                 stmt.execute("CREATE INDEX IF NOT EXISTS idx_logs_ts    ON qc_crate_logs(timestamp)");
-                stmt.execute("CREATE INDEX IF NOT EXISTS idx_vkeys_uuid ON qc_virtual_keys(uuid)");
-                stmt.execute("UPDATE qc_virtual_keys SET key_id = LOWER(key_id)");
-                mergeKeys(conn, "rarecrate", "rarekey");
-                mergeKeys(conn, "legendarycrate", "legendarykey");
-                mergeKeys(conn, "vote", "vipkey");
                 conn.commit();
                 Logger.info("Database schema &averified/created.");
             } catch (SQLException e) {
@@ -84,55 +71,6 @@ public abstract class AbstractDatabase implements DatabaseManager {
                 stmt.execute("ALTER TABLE qc_player_data ADD COLUMN lifetime_opens TEXT NOT NULL DEFAULT '{}'");
                 Logger.info("Migration: lifetime_opens column added.");
             } catch (SQLException ignored) {}
-        }
-    }
-
-    private void mergeKeys(Connection conn, String oldKey, String newKey) throws SQLException {
-        java.util.Map<String, Integer> oldBalances = new java.util.HashMap<>();
-        try (PreparedStatement ps = conn.prepareStatement("SELECT uuid, amount FROM qc_virtual_keys WHERE LOWER(key_id) = ?")) {
-            ps.setString(1, oldKey.toLowerCase());
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    oldBalances.put(rs.getString("uuid"), rs.getInt("amount"));
-                }
-            }
-        }
-        if (oldBalances.isEmpty()) return;
-
-        try (PreparedStatement psSelect = conn.prepareStatement("SELECT amount FROM qc_virtual_keys WHERE uuid = ? AND key_id = ?");
-             PreparedStatement psInsert = conn.prepareStatement("INSERT INTO qc_virtual_keys (uuid, key_id, amount) VALUES (?, ?, ?)");
-             PreparedStatement psUpdate = conn.prepareStatement("UPDATE qc_virtual_keys SET amount = amount + ? WHERE uuid = ? AND key_id = ?")) {
-            
-            for (java.util.Map.Entry<String, Integer> entry : oldBalances.entrySet()) {
-                String uuid = entry.getKey();
-                int oldAmount = entry.getValue();
-
-                psSelect.setString(1, uuid);
-                psSelect.setString(2, newKey.toLowerCase());
-                boolean exists = false;
-                try (ResultSet rs = psSelect.executeQuery()) {
-                    if (rs.next()) {
-                        exists = true;
-                    }
-                }
-
-                if (exists) {
-                    psUpdate.setInt(1, oldAmount);
-                    psUpdate.setString(2, uuid);
-                    psUpdate.setString(3, newKey.toLowerCase());
-                    psUpdate.executeUpdate();
-                } else {
-                    psInsert.setString(1, uuid);
-                    psInsert.setString(2, newKey.toLowerCase());
-                    psInsert.setInt(3, oldAmount);
-                    psInsert.executeUpdate();
-                }
-            }
-        }
-
-        try (PreparedStatement psDelete = conn.prepareStatement("DELETE FROM qc_virtual_keys WHERE LOWER(key_id) = ?")) {
-            psDelete.setString(1, oldKey.toLowerCase());
-            psDelete.executeUpdate();
         }
     }
 
@@ -204,77 +142,7 @@ public abstract class AbstractDatabase implements DatabaseManager {
 
     protected abstract String upsertPlayerDataSql();
 
-    @Override
-    public CompletableFuture<Void> addVirtualKeys(UUID uuid, String keyId, int amount) {
-        return CompletableFuture.runAsync(() -> {
-            try (Connection conn = getConnection();
-                 PreparedStatement ps = conn.prepareStatement(upsertAddKeysSql())) {
-                ps.setString(1, uuid.toString());
-                ps.setString(2, keyId.toLowerCase());
-                ps.setInt(3, amount);
-                ps.executeUpdate();
-            } catch (SQLException e) {
-                Logger.severe("Failed to add virtual keys: " + e.getMessage());
-            }
-        }, asyncExecutor);
-    }
 
-    @Override
-    public CompletableFuture<Boolean> removeVirtualKeys(UUID uuid, String keyId, int amount) {
-        return CompletableFuture.supplyAsync(() -> {
-            try (Connection conn = getConnection()) {
-                conn.setAutoCommit(false);
-                try {
-                    try (PreparedStatement check = conn.prepareStatement(
-                            "SELECT amount FROM qc_virtual_keys WHERE uuid = ? AND key_id = ?")) {
-                        check.setString(1, uuid.toString());
-                        check.setString(2, keyId.toLowerCase());
-                        try (ResultSet rs = check.executeQuery()) {
-                            if (!rs.next() || rs.getInt("amount") < amount) {
-                                conn.rollback();
-                                return false;
-                            }
-                        }
-                    }
-                    try (PreparedStatement update = conn.prepareStatement(
-                            "UPDATE qc_virtual_keys SET amount = amount - ? WHERE uuid = ? AND key_id = ?")) {
-                        update.setInt(1, amount);
-                        update.setString(2, uuid.toString());
-                        update.setString(3, keyId.toLowerCase());
-                        update.executeUpdate();
-                    }
-                    conn.commit();
-                    return true;
-                } catch (SQLException e) {
-                    conn.rollback();
-                    throw e;
-                }
-            } catch (SQLException e) {
-                Logger.severe("Failed to remove virtual keys: " + e.getMessage());
-                return false;
-            }
-        }, asyncExecutor);
-    }
-
-    @Override
-    public CompletableFuture<Integer> getVirtualKeys(UUID uuid, String keyId) {
-        return CompletableFuture.supplyAsync(() -> {
-            try (Connection conn = getConnection();
-                 PreparedStatement ps = conn.prepareStatement(
-                         "SELECT amount FROM qc_virtual_keys WHERE uuid = ? AND key_id = ?")) {
-                ps.setString(1, uuid.toString());
-                ps.setString(2, keyId.toLowerCase());
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) return rs.getInt("amount");
-                }
-            } catch (SQLException e) {
-                Logger.severe("Failed to get virtual keys: " + e.getMessage());
-            }
-            return 0;
-        }, asyncExecutor);
-    }
-
-    protected abstract String upsertAddKeysSql();
 
     @Override
     public CompletableFuture<Void> insertLog(CrateLog log) {
@@ -378,10 +246,7 @@ public abstract class AbstractDatabase implements DatabaseManager {
         }, asyncExecutor);
     }
 
-    @Override
-    public CompletableFuture<Boolean> removeVirtualKeysBatch(UUID uuid, String keyId, int totalAmount) {
-        return removeVirtualKeys(uuid, keyId, totalAmount);
-    }
+
 
 
     private CrateLog mapLog(ResultSet rs) throws SQLException {

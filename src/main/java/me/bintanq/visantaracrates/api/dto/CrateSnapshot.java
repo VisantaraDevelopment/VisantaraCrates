@@ -49,9 +49,7 @@ public record CrateSnapshot(
                 c.getPity().isEnabled(),
                 c.getPity().getThreshold(),
                 c.getPity().getSoftPityStart(),
-                c.getRequiredKeys().stream()
-                        .map(k -> new KeyRequirementSnapshot(k.getKeyId(), k.getAmount(), k.getType().name()))
-                        .collect(Collectors.toUnmodifiableList())
+                List.of()
         );
     }
 }

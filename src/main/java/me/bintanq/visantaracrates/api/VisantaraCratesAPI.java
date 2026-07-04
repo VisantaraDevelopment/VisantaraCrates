@@ -99,7 +99,7 @@ public final class VisantaraCratesAPI {
     }
 
     // ─── Key Management ─────────────────────────────────────────────────────
-
+ 
     /**
      * Gets the virtual key balance for an online player.
      *
@@ -108,9 +108,9 @@ public final class VisantaraCratesAPI {
      * @return the virtual key count, or 0 if unavailable
      */
     public int getKeyBalance(Player player, String keyId) {
-        return plugin.getKeyManager().getVirtualBalance(player, keyId);
+        return 0;
     }
-
+ 
     /**
      * Gives virtual keys to an online player.
      * Fires a {@link CrateKeyGiveEvent} before executing.
@@ -121,13 +121,9 @@ public final class VisantaraCratesAPI {
      * @return {@code true} if the keys were given successfully
      */
     public boolean giveKeys(Player player, String keyId, int amount) {
-        if (amount <= 0) return false;
-        CrateKeyGiveEvent event = new CrateKeyGiveEvent(player, keyId, amount);
-        Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) return false;
-        return plugin.getKeyManager().giveKey(player, keyId, event.getAmount());
+        return false;
     }
-
+ 
     /**
      * Takes virtual keys from an online player.
      * Fires a {@link CrateKeyTakeEvent} before executing.
@@ -138,26 +134,20 @@ public final class VisantaraCratesAPI {
      * @return {@code true} if the keys were successfully removed
      */
     public boolean takeKeys(Player player, String keyId, int amount) {
-        if (amount <= 0) return false;
-        CrateKeyTakeEvent event = new CrateKeyTakeEvent(player, keyId, amount);
-        Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) return false;
-        return plugin.getDatabaseManager()
-                .removeVirtualKeys(player.getUniqueId(), keyId, event.getAmount())
-                .join();
+        return false;
     }
-
+ 
     /**
      * Gets all known key IDs across all crates.
      *
      * @return an unmodifiable collection of key IDs
      */
     public Collection<String> getKnownKeyIds() {
-        return Collections.unmodifiableCollection(plugin.getKeyManager().getKnownKeyIds());
+        return Collections.emptyList();
     }
-
+ 
     // ─── Crate Opening ──────────────────────────────────────────────────────
-
+ 
     /**
      * Attempts to open a crate for a player.
      * Fires a {@link CratePreOpenEvent} before opening and
@@ -173,7 +163,7 @@ public final class VisantaraCratesAPI {
         if (preEvent.isCancelled()) return false;
         return plugin.getCrateManager().openCrate(player, crateId);
     }
-
+ 
     /**
      * Mass-opens a crate for a player.
      *
@@ -182,10 +172,7 @@ public final class VisantaraCratesAPI {
      * @param count   the number of times to open
      */
     public void massOpen(Player player, String crateId, int count) {
-        CratePreOpenEvent preEvent = new CratePreOpenEvent(player, crateId);
-        Bukkit.getPluginManager().callEvent(preEvent);
-        if (preEvent.isCancelled()) return;
-        plugin.getCrateManager().massOpen(player, crateId, count);
+        // No-op - mass open removed
     }
 
     // ─── Player Data ────────────────────────────────────────────────────────

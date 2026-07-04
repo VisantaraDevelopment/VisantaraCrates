@@ -12,7 +12,6 @@ import me.bintanq.visantaracrates.listener.GUIListener;
 import me.bintanq.visantaracrates.listener.PlayerListener;
 import me.bintanq.visantaracrates.log.LogManager;
 import me.bintanq.visantaracrates.manager.CrateManager;
-import me.bintanq.visantaracrates.manager.KeyManager;
 import me.bintanq.visantaracrates.manager.PreviewManager;
 import me.bintanq.visantaracrates.manager.PlayerDataManager;
 import me.bintanq.visantaracrates.manager.RarityManager;
@@ -43,7 +42,6 @@ public final class VisantaraCrates extends JavaPlugin {
     private PlayerDataManager playerDataManager;
     private RarityManager rarityManager;
     private CrateManager crateManager;
-    private KeyManager keyManager;
     private RewardProcessor rewardProcessor;
     private LogManager logManager;
     private HookManager hookManager;
@@ -189,9 +187,8 @@ public final class VisantaraCrates extends JavaPlugin {
         playerDataManager = new PlayerDataManager(databaseManager, asyncExecutor);
         hookManager       = new HookManager(this);
         rewardProcessor   = new RewardProcessor(this, hookManager);
-        keyManager        = new KeyManager(this, playerDataManager);
         previewManager    = new PreviewManager(this);
-        crateManager      = new CrateManager(this, playerDataManager, rewardProcessor, logManager, keyManager);
+        crateManager      = new CrateManager(this, playerDataManager, rewardProcessor, logManager);
         Logger.info("All managers initialized.");
     }
 
@@ -232,7 +229,6 @@ public final class VisantaraCrates extends JavaPlugin {
     public RarityManager getRarityManager()            { return rarityManager; }
     public CrateManager getCrateManager()              { return crateManager; }
     public PreviewManager getPreviewManager()          { return previewManager; }
-    public KeyManager getKeyManager()                  { return keyManager; }
     public RewardProcessor getRewardProcessor()        { return rewardProcessor; }
     public LogManager getLogManager()                  { return logManager; }
     public HookManager getHookManager()                { return hookManager; }

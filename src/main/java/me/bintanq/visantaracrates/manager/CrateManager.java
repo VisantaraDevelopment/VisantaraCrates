@@ -32,7 +32,6 @@ public class CrateManager {
     private final PlayerDataManager playerDataManager;
     private final me.bintanq.visantaracrates.processor.RewardProcessor rewardProcessor;
     private final LogManager logManager;
-    private final KeyManager keyManager;
 
     private final Object saveLock = new Object();
 
@@ -45,12 +44,11 @@ public class CrateManager {
 
     public CrateManager(VisantaraCrates plugin, PlayerDataManager playerDataManager,
                         me.bintanq.visantaracrates.processor.RewardProcessor rewardProcessor,
-                        LogManager logManager, KeyManager keyManager) {
+                        LogManager logManager) {
         this.plugin = plugin;
         this.playerDataManager = playerDataManager;
         this.rewardProcessor = rewardProcessor;
         this.logManager = logManager;
-        this.keyManager = keyManager;
     }
 
     private String locationKey(String world, int x, int y, int z) {
@@ -248,18 +246,6 @@ public class CrateManager {
             changes.add("schedule " + before.getSchedule().getMode() + " → " + after.getSchedule().getMode());
         }
 
-        // Required keys
-        Set<String> beforeKeys = before.getRequiredKeys().stream()
-                .map(Crate.KeyRequirement::getKeyId)
-                .collect(java.util.stream.Collectors.toSet());
-        Set<String> afterKeys = after.getRequiredKeys().stream()
-                .map(Crate.KeyRequirement::getKeyId)
-                .collect(java.util.stream.Collectors.toSet());
-        afterKeys.stream().filter(k -> !beforeKeys.contains(k))
-                .forEach(k -> changes.add("added key '" + k + "'"));
-        beforeKeys.stream().filter(k -> !afterKeys.contains(k))
-                .forEach(k -> changes.add("removed key '" + k + "'"));
-
         // Rewards — added/removed
         Set<String> beforeIds = before.getRewards().stream()
                 .map(me.bintanq.visantaracrates.model.reward.Reward::getId)
@@ -322,7 +308,6 @@ public class CrateManager {
                 && !player.hasPermission("VisantaraCrates.bypasscooldown"))
             return OpenResult.ON_COOLDOWN;
 
-        if (!keyManager.hasRequiredKeys(player, crate)) return OpenResult.MISSING_KEY;
         if (crate.getOpenRateLimit() > 0) {
             long minInterval = 1000L / crate.getOpenRateLimit();
             ConcurrentHashMap<String, Long> playerMap = rateLimitTracker
@@ -351,138 +336,11 @@ public class CrateManager {
         return executeOpen(player, crateId, false);
     }
 
-    public void massOpen(Player player, String crateId, int count) {
-        Crate crate = crateRegistry.get(crateId);
-        if (crate == null || !crate.isMassOpenEnabled()) {
-            MessageManager.send(player, "mass-open-disabled", "{crate}", crateId);
-            return;
-        }
-
-        if (crate.getCooldownMs() > 0) {
-            PlayerData data = playerDataManager.getOrEmpty(player.getUniqueId());
-            if (data.isOnCooldown(crateId, crate.getCooldownMs())) {
-                sendOpenResultFeedback(player, OpenResult.ON_COOLDOWN, crateId);
-                return;
-            }
-        }
-
-        int maxAllowed = crate.getMassOpenLimit();
-        int canPerform = keyManager.countPossibleOpens(player, crate);
-
-        if (crate.getLifetimeOpenLimit() > 0
-                && !player.hasPermission("VisantaraCrates.bypasslimit")) {
-            int used = playerDataManager.getLifetimeOpens(player.getUniqueId(), crateId);
-            int remaining = crate.getLifetimeOpenLimit() - used;
-            if (remaining <= 0) {
-                sendOpenResultFeedback(player, OpenResult.LIFETIME_LIMIT_REACHED, crateId);
-                return;
-            }
-            canPerform = Math.min(canPerform, remaining);
-        }
-
-        int actual = (count <= 0) ? canPerform : Math.min(count, canPerform);
-        if (maxAllowed > 0) actual = Math.min(actual, maxAllowed);
-
-        if (actual <= 0) {
-            sendOpenResultFeedback(player, OpenResult.MISSING_KEY, crateId);
-            return;
-        }
-
-        if (openingLock.contains(player.getUniqueId())) {
-            sendOpenResultFeedback(player, OpenResult.ALREADY_OPENING, crateId);
-            return;
-        }
-
-        openingLock.add(player.getUniqueId());
-
-        String consumed = keyManager.consumeKeysBatch(player, crate, actual);
-        if (consumed == null) {
-            openingLock.remove(player.getUniqueId());
-            sendOpenResultFeedback(player, OpenResult.MISSING_KEY, crateId);
-            return;
-        }
-
-        final int totalToOpen = actual;
-        final UUID capturedUuid = player.getUniqueId();
-        final java.lang.ref.WeakReference<Player> playerRef = new java.lang.ref.WeakReference<>(player);
-        final java.util.concurrent.atomic.AtomicInteger remaining = new java.util.concurrent.atomic.AtomicInteger(totalToOpen);
-        final java.util.concurrent.atomic.AtomicInteger successCount = new java.util.concurrent.atomic.AtomicInteger(0);
-        final String capturedCrateId = crateId;
-
-        // Respect rate limit: calculate max opens per tick (1 tick = 50ms)
-        final int rateLimit = crate.getOpenRateLimit();
-        // If rateLimit is e.g. 5/sec → 5 per 20 ticks → 1 per 4 ticks minimum
-        // For simplicity: allow at most max(1, rateLimit) per second, spread across ticks
-        // Each tick processes min(batchPerTick, remaining)
-        final int batchPerTick = (rateLimit > 0) ? Math.max(1, rateLimit / 20) : 10;
-
-        new org.bukkit.scheduler.BukkitRunnable() {
-            @Override
-            public void run() {
-                Player p = playerRef.get();
-
-                if (p == null || !p.isOnline()) {
-                    // REFUND remaining unconsumed keys
-                    int leftover = remaining.get();
-                    if (leftover > 0) {
-                        Crate c = crateRegistry.get(capturedCrateId);
-                        if (c != null) {
-                            for (Crate.KeyRequirement req : c.getRequiredKeys()) {
-                                if (req.getType() == Crate.KeyType.VIRTUAL) {
-                                    plugin.getDatabaseManager().addVirtualKeys(capturedUuid, req.getKeyId(), req.getAmount() * leftover);
-                                }
-                            }
-                        }
-                        Logger.info("Refunded " + leftover + " mass-open keys to offline player " + capturedUuid);
-                    }
-                    openingLock.remove(capturedUuid);
-                    cancel();
-                    return;
-                }
-
-                if (remaining.get() <= 0) {
-                    openingLock.remove(p.getUniqueId());
-                    int success = successCount.get();
-                    if (success > 0) {
-                        MessageManager.send(p, "mass-open-success", "{count}", String.valueOf(success));
-                    }
-                    cancel();
-                    return;
-                }
-
-                int batch = Math.min(batchPerTick, remaining.get());
-                for (int i = 0; i < batch; i++) {
-                    if (executeOpenNoKeyConsume(p, capturedCrateId)) {
-                        successCount.incrementAndGet();
-                    } else {
-                        // Refund remaining keys that won't be used
-                        int leftover = remaining.get() - 1; // -1 because this one failed
-                        if (leftover > 0) {
-                            Crate c = crateRegistry.get(capturedCrateId);
-                            if (c != null) {
-                                for (Crate.KeyRequirement req : c.getRequiredKeys()) {
-                                    if (req.getType() == Crate.KeyType.VIRTUAL) {
-                                        plugin.getDatabaseManager().addVirtualKeys(p.getUniqueId(), req.getKeyId(), req.getAmount() * leftover);
-                                    }
-                                }
-                            }
-                        }
-                        remaining.set(0);
-                        break;
-                    }
-                    remaining.decrementAndGet();
-                }
-            }
-        }.runTaskTimer(plugin, 0L, 1L);
-    }
-
     private boolean executeOpen(Player player, String crateId, boolean skipCooldownCheck) {
         Crate crate = crateRegistry.get(crateId);
         if (crate == null || !crate.isEnabled()) return false;
         if (openingLock.contains(player.getUniqueId())) return false;
         if (!crate.isCurrentlyOpenable()) return false;
-
-        if (!keyManager.hasRequiredKeys(player, crate)) return false;
 
         PlayerData data = playerDataManager.getOrEmpty(player.getUniqueId());
         openingLock.add(player.getUniqueId());
@@ -498,9 +356,7 @@ public class CrateManager {
                 }
             }
 
-            String consumedKeyId = keyManager.consumeKeys(player, crate);
-            if (consumedKeyId == null) return false;
-
+            String consumedKeyId = "physical";
             RewardResult result = rewardProcessor.roll(crate, data);
 
             if (plugin.isPityEnabled()) {
@@ -691,15 +547,7 @@ public class CrateManager {
                 MessageManager.send(player, "cooldown-active", "{time}", TimeUtil.formatDuration(rem));
             }
             case MISSING_KEY -> {
-                Crate crate = crateRegistry.get(crateId);
-                String missingKeyId = (crate != null)
-                        ? crate.getRequiredKeys().stream()
-                        .filter(req -> keyManager.countPossibleOpens(player, crate) == 0)
-                        .map(Crate.KeyRequirement::getKeyId)
-                        .findFirst()
-                        .orElse(crateId)
-                        : crateId;
-                MessageManager.send(player, "key-not-found", "{key}", missingKeyId);
+                MessageManager.send(player, "key-not-found", "{key}", crateId);
             }
             case ALREADY_OPENING -> MessageManager.send(player, "already-opening");
             case RATE_LIMITED        -> MessageManager.send(player, "rate-limited");
