@@ -113,3 +113,8 @@ UPDATELIST.md
 
 # Common working directory
 run/
+
+# Local databases and temporary check outputs
+checker_output.txt
+MigrationPhoenix/
+src/main/resources/visantaracrates.db

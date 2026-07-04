@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.bintanq</groupId>
-    <artifactId>QuantumCrate</artifactId>
-    <version>1.5.1</version>
+    <artifactId>VisantaraCrates</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>QuantumCrate</name>
-    <description>A revolutionary crate plugin with Web-First management philosophy.</description>
+    <name>VisantaraCrates</name>
+    <description>Custom crate plugin for Visantara server.</description>
 
     <properties>
         <java.version>21</java.version>
@@ -57,6 +57,10 @@
             <id>codemc-repo</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
             <layout>default</layout>
+        </repository>
+        <repository>
+            <id>nexo-repo</id>
+            <url>https://repo.nexomc.com/releases</url>
         </repository>
     </repositories>
 
@@ -198,32 +202,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.javalin</groupId>
-            <artifactId>javalin</artifactId>
-            <version>6.3.0</version>
-            <scope>compile</scope>
-        </dependency>
 
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>4.4.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.16</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>2.0.16</version>
-            <scope>compile</scope>
-        </dependency>
 
         <dependency>
             <groupId>net.kyori</groupId>
@@ -243,6 +222,19 @@
             <artifactId>bstats-bukkit</artifactId>
             <version>3.2.1</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nexomc</groupId>
+            <artifactId>nexo</artifactId>
+            <version>1.21.0</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>dev.triumphteam</groupId>
+                    <artifactId>triumph-gui</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -271,25 +263,18 @@
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
-                                <relocation>
-                                    <pattern>io.javalin</pattern>
-                                    <shadedPattern>me.bintanq.quantumcrates.libs.javalin</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.auth0</pattern>
-                                    <shadedPattern>me.bintanq.quantumcrates.libs.auth0</shadedPattern>
-                                </relocation>
+
                                 <relocation>
                                     <pattern>com.zaxxer.hikari</pattern>
-                                    <shadedPattern>me.bintanq.quantumcrates.libs.hikari</shadedPattern>
+                                    <shadedPattern>me.bintanq.visantaracrates.libs.hikari</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <shadedPattern>me.bintanq.quantumcrates.libs.bstats</shadedPattern>
+                                    <shadedPattern>me.bintanq.visantaracrates.libs.bstats</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>net.kyori</pattern>
-                                    <shadedPattern>me.bintanq.quantumcrates.libs.kyori</shadedPattern>
+                                    <shadedPattern>me.bintanq.visantaracrates.libs.kyori</shadedPattern>
                                 </relocation>
                             </relocations>
                             <transformers>
@@ -321,14 +306,14 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <excludes>
-                    <exclude>web/img/*.webp</exclude>
+                    <exclude>visantaracrates.db</exclude>
                 </excludes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
                 <includes>
-                    <include>web/img/*.webp</include>
+                    <include>visantaracrates.db</include>
                 </includes>
             </resource>
         </resources>

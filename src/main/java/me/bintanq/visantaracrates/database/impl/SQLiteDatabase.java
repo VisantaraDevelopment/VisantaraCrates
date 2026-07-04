@@ -1,0 +1,101 @@
+package me.bintanq.visantaracrates.database.impl;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import me.bintanq.visantaracrates.VisantaraCrates;
+import me.bintanq.visantaracrates.database.AbstractDatabase;
+import me.bintanq.visantaracrates.util.Logger;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+/**
+ * SQLiteDatabase — HikariCP-backed SQLite implementation.
+ *
+ * SQLite is single-writer but HikariCP pool-size=1 ensures we never
+ * get "database is locked" while still benefiting from connection reuse.
+ */
+public class SQLiteDatabase extends AbstractDatabase {
+
+    private HikariDataSource dataSource;
+
+    public SQLiteDatabase(VisantaraCrates plugin) {
+        super(plugin);
+    }
+
+    @Override
+    public void init() throws Exception {
+        File dbFile = new File(plugin.getDataFolder(),
+                plugin.getConfig().getString("database.sqlite.file", "VisantaraCrates.db"));
+        if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
+
+        HikariConfig config = new HikariConfig();
+        config.setPoolName("VisantaraCrates-SQLite");
+        config.setDriverClassName("org.sqlite.JDBC");
+        config.setJdbcUrl("jdbc:sqlite:" + dbFile.getAbsolutePath());
+
+        config.setMaximumPoolSize(1);
+        config.setMinimumIdle(1);
+        config.setConnectionTimeout(30_000);
+        config.setIdleTimeout(600_000);
+        config.setMaxLifetime(1_800_000);
+
+        config.setConnectionInitSql(
+                "PRAGMA journal_mode=WAL; " +
+                        "PRAGMA synchronous=NORMAL; " +
+                        "PRAGMA cache_size=10000; " +
+                        "PRAGMA busy_timeout=5000; " +
+                        "PRAGMA foreign_keys=ON;"
+        );
+
+        dataSource = new HikariDataSource(config);
+        Logger.info("SQLite pool initialised — file: &e" + dbFile.getName());
+        createTables();
+    }
+
+    @Override
+    public void close() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+            Logger.info("SQLite connection pool closed.");
+        }
+    }
+
+    @Override
+    public Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    /* ─────────────────────── Dialect overrides ─────────────────────── */
+
+    @Override
+    protected String autoIncrementSyntax() {
+        // SQLite uses AUTOINCREMENT keyword
+        return " AUTOINCREMENT";
+    }
+
+    @Override
+    protected String upsertPlayerDataSql() {
+        // SQLite UPSERT syntax (available since 3.24.0)
+        return """
+            INSERT INTO qc_player_data (uuid, pity_data, cooldown_data, lifetime_opens, last_seen)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(uuid) DO UPDATE SET
+                pity_data     = excluded.pity_data,
+                cooldown_data = excluded.cooldown_data,
+                lifetime_opens = excluded.lifetime_opens,
+                last_seen     = excluded.last_seen
+        """;
+    }
+
+    @Override
+    protected String upsertAddKeysSql() {
+        return """
+            INSERT INTO qc_virtual_keys (uuid, key_id, amount)
+            VALUES (?, ?, ?)
+            ON CONFLICT(uuid, key_id) DO UPDATE SET
+                amount = qc_virtual_keys.amount + excluded.amount
+        """;
+    }
+}

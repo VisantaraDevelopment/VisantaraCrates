@@ -1,48 +1,57 @@
-name: QuantumCrate
+name: VisantaraCrates
 version: '${project.version}'
-main: me.bintanq.quantumcrates.QuantumCrates
+main: me.bintanq.visantaracrates.VisantaraCrates
 api-version: '1.20'
-description: Revolutionary crate plugin with Web-First management.
+description: Custom crate plugin for Visantara server.
 authors: [ bintanq ]
 
 softdepend:
   - PlaceholderAPI
-  - DecentHolograms
   - MMOItems
   - ItemsAdder
   - Oraxen
   - Vault
+  - Nexo
 
 commands:
-  quantumcrates:
-    description: QuantumCrates main command
-    aliases: [ qc, crates, crate ]
-    usage: /qc <subcommand>
-    permission: quantumcrates.use
+  visantaracrates:
+    description: VisantaraCrates main command
+    aliases: [ vc, crates, crate, qc ]
+    usage: /vc <subcommand>
+    permission: visantaracrates.use
+  cratesmigrate:
+    description: Migrate virtual keys from phoenix database to physical crates
+    aliases: [ keymigrate, vcmigrate ]
+    usage: /cratesmigrate [player]
+
 
 permissions:
-  quantumcrates.admin:
+  visantaracrates.admin:
     description: Full admin access
     default: op
     children:
-      quantumcrates.key.give: true
-      quantumcrates.massopen: true
-      quantumcrates.preview: true
-      quantumcrates.use: true
-      quantumcrates.web: true
-      quantumcrates.bypasscooldown: true
-  quantumcrates.use:
+      visantaracrates.key.give: true
+      visantaracrates.massopen: true
+      visantaracrates.preview: true
+      visantaracrates.use: true
+      visantaracrates.bypasscooldown: true
+      visantaracrates.bypasslimit: true
+      visantaracrates.migrate: true
+  visantaracrates.use:
     description: Can use crate
     default: true
-  quantumcrates.key.give:
+  visantaracrates.key.give:
     description: Give key to other
     default: op
-  quantumcrates.massopen:
+  visantaracrates.massopen:
     description: Mass open crate
     default: true
-  quantumcrates.bypasscooldown:
+  visantaracrates.bypasscooldown:
     description: Bypass crate cooldown
     default: op
-  quantumcrates.web:
-    description: Generate web dashboard magic link
+  visantaracrates.bypasslimit:
+    description: Bypass lifetime open limit
     default: op
+  visantaracrates.migrate:
+    description: Migrate old virtual keys
+    default: true

@@ -1,0 +1,179 @@
+id: "RareCrate"
+displayName: "&9Rare Crate"
+previewId: "default"
+pity:
+  enabled: true
+  threshold: 50
+  rareRarityMinimum: "RARE"
+  bonusChancePerOpen: 2.0
+  softPityStart: 40
+enabled: true
+openSound: "BLOCK_NOTE_BLOCK_HAT"
+winSound: "UI_TOAST_CHALLENGE_COMPLETE"
+rewards:
+  - id: "reward_0"
+    displayName: "&9+5 Minutes Fly"
+    weight: 49.0
+    rarity: "COMMON"
+    type: "COMMAND"
+    nexoId: "fly_icon"
+    amount: 5
+    commands:
+      - "console:tf give %player% 5m"
+  - id: "reward_1"
+    displayName: "&b+200 Gems"
+    weight: 29.0
+    rarity: "COMMON"
+    type: "COMMAND"
+    nexoId: "gem"
+    amount: 1
+    commands:
+      - "console:eco give %player% 200"
+  - id: "reward_2"
+    displayName: "&b+350 Gems"
+    weight: 29.0
+    rarity: "COMMON"
+    type: "COMMAND"
+    nexoId: "gem"
+    amount: 1
+    commands:
+      - "console:eco give %player% 350"
+  - id: "reward_3"
+    displayName: "&9+10 Minutes Fly"
+    weight: 15.0
+    rarity: "UNCOMMON"
+    type: "COMMAND"
+    nexoId: "fly_icon"
+    amount: 10
+    commands:
+      - "console:tf give %player% 10m"
+  - id: "reward_4"
+    displayName: "&9+2 Rare Crate"
+    weight: 15.0
+    rarity: "UNCOMMON"
+    type: "CRATE"
+    crateId: "RareCrate"
+    amount: 2
+    broadcast: true
+  - id: "reward_5"
+    displayName: "&a+100 Claim Blocks"
+    weight: 29.0
+    rarity: "COMMON"
+    type: "COMMAND"
+    nexoId: "add_claim_block_icon"
+    amount: 1
+    commands:
+      - "console:adjustbonusclaimblocks %player% 100"
+  - id: "reward_6"
+    displayName: "&a+300 Claim Blocks"
+    weight: 29.0
+    rarity: "COMMON"
+    type: "COMMAND"
+    nexoId: "add_claim_block_icon"
+    amount: 1
+    commands:
+      - "console:adjustbonusclaimblocks %player% 300"
+  - id: "reward_7"
+    displayName: "&e1x Slot Token"
+    weight: 7.0
+    rarity: "RARE"
+    type: "COMMAND"
+    nexoId: "slot_token"
+    amount: 1
+    commands:
+      - "console:enchantslots give %player% test_expander 1"
+  - id: "reward_8"
+    displayName: "&6+1 Legendary Crate"
+    weight: 7.0
+    rarity: "RARE"
+    type: "CRATE"
+    crateId: "LegendaryCrate"
+    amount: 1
+
+crate-type: FREE
+sound-on-open: "block.chest.open"
+sound-on-select: "block.note_block.bell"
+sound-on-deselect: "block.note_block.hat"
+sound-on-transition: "block.chest.open"
+sound-on-reroll: "block.anvil.use"
+sound-on-claim: "entity.player.levelup"
+sound-on-click: "ui.button.click"
+transition-ticks: 40
+
+titles:
+  free:
+    closed: ""
+    open: ""
+    claim-off: ""
+    claim-on: ""
+  premium:
+    closed: ""
+    open: ""
+    claim-on-reroll-2: ""
+    claim-on-reroll-1: ""
+    claim-on-reroll-off: ""
+    claim-off-reroll-2: ""
+    claim-off-reroll-1: ""
+    claim-off-reroll-off: ""
+
+slots:
+  free:
+    reward-slots: [12, 13, 14]
+    open-slots: [30, 31, 32]
+    claim-slots: [30, 31, 32]
+  premium:
+    reward-slots: [11, 12, 13, 14, 15]
+    open-slots: [30, 31, 32]
+    claim-slots: [28, 29, 30]
+    reroll-slots: [31, 32, 33]
+
+buttons:
+  select-button-selected:
+    nexoId: "crate_selector"
+    material: "PAPER"
+    customModelData: 1079
+    displayName: "&a✔ &f{reward}"
+  gui-filler:
+    nexoId: "blank"
+    material: "GRAY_STAINED_GLASS_PANE"
+    customModelData: -1
+    displayName: "&f"
+  reward-slot-item:
+    nexoId: "blank"
+    material: "PAPER"
+    customModelData: -1
+    displayName: "&f"
+  open-slot-item:
+    nexoId: "blank"
+    material: "PAPER"
+    customModelData: -1
+    displayName: "&aClick to open"
+  claim-slot-item:
+    nexoId: "blank"
+    material: "PAPER"
+    customModelData: -1
+    displayName: "&aSelect and Click to claim"
+  reroll-slot-item:
+    nexoId: "blank"
+    material: "PAPER"
+    customModelData: -1
+    displayName: "&aClick to reroll"
+
+physical-items:
+  free:
+    material: "PAPER"
+    nexoId: "rare_crate"
+    customModelData: 1080
+    displayName: "&9Rare Crate"
+    lore:
+      - "&#419CD8Right click to open"
+  premium:
+    material: "PAPER"
+    nexoId: "rare_crate_premium"
+    customModelData: 1083
+    displayName: "&dPremium Rare Crate"
+    lore:
+      - "&#419CD8Right click to open"
+
+claim-commands:
+  - "cratecoin give %player% rare %amount%"

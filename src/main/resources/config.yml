@@ -1,11 +1,11 @@
 # ╔══════════════════════════════════════════════════════════════════════════╗
-# ║   QuantumCrates — config.yml                                            ║
-# ║   Web-First Crate Plugin  |  Paper 1.21+  |  Java 21                   ║
+# ║   VisantaraCrates — config.yml                                          ║
+# ║   Custom Crate Plugin  |  Paper 1.21+  |  Java 21                      ║
 # ║                                                                          ║
 # ║   QUICK START                                                            ║
 # ║     1. Set web.secret-token to a long, random string.                   ║
 # ║     2. Set web.hostname to your Server IP (Use 'ping' to verify).       ║
-# ║     3. Restart the server, then run /qc web in-game.                    ║
+# ║     3. Restart the server, then run /vc web in-game.                    ║
 # ╚══════════════════════════════════════════════════════════════════════════╝
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -18,13 +18,13 @@ database:
   type: sqlite
 
   sqlite:
-    # File path relative to /plugins/QuantumCrates/
-    file: quantumcrates.db
+    # File path relative to /plugins/VisantaraCrates/
+    file: visantaracrates.db
 
   mysql:
     host: localhost
     port: 3306
-    database: quantumcrates
+    database: visantaracrates
     username: root
     password: changeme
     # HikariCP connection pool size — 10 is sufficient for most servers.
@@ -37,7 +37,7 @@ database:
 # ─────────────────────────────────────────────────────────────────────────────
 # CONFIG VERSIONING — do NOT modify this manually
 # ─────────────────────────────────────────────────────────────────────────────
-config-version: 3
+config-version: 4
 
 # ─────────────────────────────────────────────────────────────────────────────
 # GENERAL SETTINGS
@@ -59,6 +59,12 @@ settings:
   # Notify operators on join if an update is available.
   notify-ops-on-join: true
 
+  # ── Pity System Master Toggle ──────────────────────────────────────────
+  # Set to false to GLOBALLY disable the pity system across ALL crates.
+  # When disabled: no pity tracking, no soft/hard pity rolls, no pity
+  # display in GUI, no pity placeholders. Per-crate pity configs are ignored.
+  enable-pity: false
+
 # ─────────────────────────────────────────────────────────────────────────────
 # VAULT ECONOMY INTEGRATION
 # Requires Vault + an economy plugin (e.g., EssentialsX, CMI).
@@ -76,6 +82,8 @@ vault:
 # Two modes:
 #   virtual  — Keys are stored as a database balance. Secure and recommended.
 #   physical — Keys are physical items with a PDC tag. Tradeable between players.
+#
+# Key definitions are stored in keys.yml.
 # ─────────────────────────────────────────────────────────────────────────────
 keys:
   mode: virtual
@@ -99,75 +107,48 @@ keys:
       - ""
       - "&8▸ &7Right-click a crate to use."
 
-# ─────────────────────────────────────────────────────────────────────────────
-# HOLOGRAMS
-# Providers:
-#   decentholograms — Requires the DecentHolograms plugin (recommended).
-#   packet          — Built-in ArmorStand holograms, no extra dependency.
-# ─────────────────────────────────────────────────────────────────────────────
-holograms:
-  provider: packet
-  # How often (in seconds) holograms are refreshed with live data.
-  update-interval: 10
+crates:
+  physical:
+    # Bukkit Material used for the physical crate item.
+    material: CHEST
 
-# ─────────────────────────────────────────────────────────────────────────────
-# WEB DASHBOARD
-# NOTE: Changing port or enabled requires a full server restart.
-# ─────────────────────────────────────────────────────────────────────────────
-web:
-  enabled: true
+    # Custom Model Data for resource-pack support. Set to -1 to disable.
+    custom-model-data: -1
 
-  # The IP or domain used for the dashboard link (/qc web).
-  # IMPORTANT: Many users get confused here. Enter your server's REAL IP address.
-  #
-  # HOW TO SET:
-  # 1. Open CMD or Terminal on your computer.
-  # 2. Type: ping [your-server-domain] (Example: ping play.myserver.com)
-  # 3. Copy the numeric IP that appears (e.g., 103.12.34.56) and paste it below.
-  #
-  # NOTES:
-  # "auto" -> Attempts to find the IP automatically (Fixed to be more accurate).
-  # ""     -> Falls back to "localhost" (Only for local testing).
-  hostname: "auto"
+    # Display name of the physical crate item. Supports & color codes.
+    # Placeholders: {crate} -> crate display name, {type} -> FREE/PREMIUM.
+    display-name: "&6{crate} Crate &8(&7{type}&8)"
 
-  # Port the embedded web server listens on. Default: 7420. Open New Port in Network on your panel
-  port: 7420
+    # Lore line showing the crate ID.
+    id-lore: "&7Crate ID: &e{crate}"
 
-  # IMPORTANT: Change this before first run. Use a random 32+ character string.
-  # This token is used to sign JWT sessions AND as the manual login password.
-  secret-token: "CHANGE_THIS_TO_A_LONG_RANDOM_STRING_BEFORE_STARTING"
+    # Lore line showing the crate type.
+    type-lore: "&7Type: &b{type}"
 
-  # Allowed CORS origins for the dashboard. "*" allows all (fine for LAN/VPN).
-  # For public servers restrict to your actual domain: "https://my.domain.com"
-  cors-origins: "*"
-
-  # Maximum API requests per minute per IP address. Increase for automated tools.
-  rate-limit: 120
-
-  # Log every HTTP request to the console (noisy — only useful for debugging).
-  log-requests: false
+    # Additional lore lines appended below.
+    extra-lore:
+      - ""
+      - "&8▸ &7Right-click anywhere to open!"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CHAT MESSAGES
 # All messages support & color codes.
-# Edit live from the web dashboard → Messages page (no restart required).
 # ─────────────────────────────────────────────────────────────────────────────
 messages:
-  # Prefix prepended to every plugin chat message.
-  prefix: "&8[&aQuantumCrates&8] &r"
+  # Prefix prepended to every plugin chat message (blue-white theme).
+  prefix: "&8[&bVisantara&fCrates&8] &r"
 
   # ── General ──────────────────────────────────────────────────────────────
   no-permission:     "&cYou do not have permission to do that."
   player-only:       "&cThis command can only be used by a player."
   player-not-found:  "&cPlayer &e{player} &cwas not found or is offline."
   invalid-number:    "&cAmount must be a positive whole number."
-  reload-success:    "&aAll crates, holograms, and particles have been reloaded."
+  reload-success:    "&aAll crates and particles have been reloaded."
   crate-not-found:   "&cNo crate found with the ID: &e{crate}"
   crate-disabled:    "&cCrate &e{crate} &cis currently disabled."
   players-only-open: "&cCrates can only be opened by players."
 
   # ── Offline Key Give ──────────────────────────────────────────────────────
-  # Shown while resolving a name to UUID for an offline player.
   key-give-resolving: "&7Resolving player &e{player}&7, please wait..."
 
   # ── Crate Opening ─────────────────────────────────────────────────────────
@@ -194,7 +175,6 @@ messages:
   pity-status-normal: "&7[Normal]"
 
   # ── Crate Interaction — Access Denied ────────────────────────────────────
-  # Shown when a player interacts with a crate they cannot open.
   crate-access-denied: "&cYou need &e{key} &cx{amount} &cto open this crate."
 
   # ── Admin Commands ────────────────────────────────────────────────────────
@@ -211,7 +191,7 @@ messages:
   broadcast-default: "&6✦ &e{player} &7won &6{reward} &7from &e{crate}&7!"
 
   # ── Info Command ──────────────────────────────────────────────────────────
-  info-header:        "&a&l━━━ Crate Info: {crate} &a&l━━━"
+  info-header:        "&b&l━━━ Crate Info: {crate} &b&l━━━"
   info-id:            "&7ID: &f{crate}"
   info-status-on:     "&7Status: &aEnabled"
   info-status-off:    "&7Status: &cDisabled"
@@ -226,7 +206,7 @@ messages:
   info-openable:      "&7Can Open: &aYes"
   info-not-openable:  "&7Can Open: &cNo"
   info-location:      "&7Location: &f{world} &8({x}, {y}, {z})"
-  info-no-location:   "&7Locations: &cNone set &8(/qc setloc {crate})"
+  info-no-location:   "&7Locations: &cNone set &8(/vc setloc {crate})"
   info-location-count: "&7Locations: &f{count} set"
   info-keys-header:   "&7Required Keys:"
   info-key-entry:     "  &8▸ &e{key} &7x{amount} &8[{type}]"
@@ -234,63 +214,53 @@ messages:
   cooldown-none:      "None"
 
   # ── Usage Hints ───────────────────────────────────────────────────────────
-  usage-give:      "&cUsage: /qc give <player> <keyId> <amount>"
-  usage-open:      "&cUsage: /qc open <crateId>"
-  usage-massopen:  "&cUsage: /qc massopen <crateId> [count]"
-  usage-info:      "&cUsage: /qc info <crateId>"
-  usage-setloc:    "&cUsage: /qc setloc <crateId>"
-  usage-delloc:    "&cUsage: /qc delloc <crateId> [locationIndex]"
-  usage-pity:      "&cUsage: /qc pity <player> <crateId>"
-  usage-resetpity: "&cUsage: /qc resetpity <player> <crateId>"
-  usage-keys: "&cUsage: /qc keys <player> <keyId>"
-  usage-resetlifetime: "&cUsage: /qc resetlifetime <player> <crateId>"
+  usage-give:      "&cUsage: /vc give <player> <keyId> <amount>"
+  usage-open:      "&cUsage: /vc open <crateId>"
+  usage-massopen:  "&cUsage: /vc massopen <crateId> [count]"
+  usage-info:      "&cUsage: /vc info <crateId>"
+  usage-setloc:    "&cUsage: /vc setloc <crateId>"
+  usage-delloc:    "&cUsage: /vc delloc <crateId> [locationIndex]"
+  usage-pity:      "&cUsage: /vc pity <player> <crateId>"
+  usage-resetpity: "&cUsage: /vc resetpity <player> <crateId>"
+  usage-keys: "&cUsage: /vc keys <player> <keyId>"
+  usage-resetlifetime: "&cUsage: /vc resetlifetime <player> <crateId>"
   keys-balance: "&7Virtual key &e[{key}] &7for &e{player}&7: &a{balance}"
   lifetime-reset-done: "&aReset lifetime opens for &e{player} &aon crate &e{crate}&a. &8(was &7{count}&8)"
 
   # ── List Command ──────────────────────────────────────────────────────────
   list-empty:      "&7No crates are registered yet."
-  list-header:     "&a&l━━━ Registered Crates &7({count}) &a&l━━━"
+  list-header:     "&b&l━━━ Registered Crates &7({count}) &b&l━━━"
   list-entry:      "  &8▸ &e{id} &7({name}&7) {status} &8| &7{rewards} rewards &8| &7{keys} key(s)"
   list-status-on:  "&aEnabled"
   list-status-off: "&cDisabled"
 
-  # ── Web Dashboard ─────────────────────────────────────────────────────────
-  web-disabled:     "&c[QC] Web server is disabled. Check &eweb.enabled &cin config.yml."
-  web-header-bar:   "&8&l━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  web-header-title: "&a&l  QuantumCrates Dashboard"
-  web-link-label:   "&7Link &f(valid &e5 minutes&f, single use):"
-  web-link-hint:    "&7Click the link above or use the button below."
-  web-click-button: "[Open Dashboard]"
-
   # ── Help ─────────────────────────────────────────────────────────────────
-  help-header:          "&a&l━━━ QuantumCrates Help ━━━"
-  help-reload:          "&e/qc reload &7- Reload all crates"
-  help-give:            "&e/qc give <player> <key> <amount> &7- Give key (offline-safe)"
-  help-open:            "&e/qc open <crateId> &7- Force open crate (admin)"
-  help-delloc:          "&e/qc delloc <crateId> [index] &7- Remove a crate location"
-  help-info:            "&e/qc info <crateId> &7- Show crate details"
-  help-list:            "&e/qc list &7- List all crates"
-  help-setloc:          "&e/qc setloc <crateId> &7- Add location at targeted block"
-  help-pity:            "&e/qc pity <player> <crateId> &7- Check pity counter"
-  help-resetpity: "&e/qc resetpity <player> <crateId> &7- Reset pity"
-  help-resetlifetime: "&e/qc resetlifetime <player> <crateId> &7- Reset lifetime opens"
-  help-keys-cmd:        "&e/qc keys <player> <keyId> &7- Check virtual key balance"
-  help-controls-header: "&a&lBlock Controls:"
+  help-header:          "&b&l━━━ VisantaraCrates Help ━━━"
+  help-reload:          "&e/vc reload &7- Reload all crates"
+  help-give:            "&e/vc give <player> <key> <amount> &7- Give key (offline-safe)"
+  help-open:            "&e/vc open <crateId> &7- Force open crate (admin)"
+  help-delloc:          "&e/vc delloc <crateId> [index] &7- Remove a crate location"
+  help-info:            "&e/vc info <crateId> &7- Show crate details"
+  help-list:            "&e/vc list &7- List all crates"
+  help-setloc:          "&e/vc setloc <crateId> &7- Add location at targeted block"
+  help-pity:            "&e/vc pity <player> <crateId> &7- Check pity counter"
+  help-resetpity: "&e/vc resetpity <player> <crateId> &7- Reset pity"
+  help-resetlifetime: "&e/vc resetlifetime <player> <crateId> &7- Reset lifetime opens"
+  help-keys-cmd:        "&e/vc keys <player> <keyId> &7- Check virtual key balance"
+  help-controls-header: "&b&lBlock Controls:"
   help-ctrl-left:       "  &e[Left Click]         &7→ Preview rewards"
   help-ctrl-right:      "  &e[Right Click]        &7→ Open crate"
   help-ctrl-shift:      "  &e[Shift+Right Click]  &7→ Mass open"
-  help-web:             "&e/qc web [ip] &7- Generate a dashboard magic link"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # GUI MESSAGES
 # Used for inventory titles, button names, and lore lines.
-# Edit live from the web dashboard → Messages page.
 # ─────────────────────────────────────────────────────────────────────────────
 gui-messages:
 
   # Preview GUI titles
-  preview-title-default: "&0&lPreview &8» &a{crate}"
-  preview-title-paged:   "&0&lPreview &8» &a{crate} &8[&7{page}&8/&7{pages}&8]"
+  preview-title-default: "&0&lPreview &8» &b{crate}"
+  preview-title-paged:   "&0&lPreview &8» &b{crate} &8[&7{page}&8/&7{pages}&8]"
 
   # Navigation buttons
   prev-button-name:   "&e&l◄ Previous"
@@ -309,7 +279,7 @@ gui-messages:
   reward-broadcast-tag: "&6✦ &7Server broadcast"
 
   # Info book item
-  info-item-name:         "&a&lCrate Info"
+  info-item-name:         "&b&lCrate Info"
   info-divider:           "&8──────────────────"
   info-crate-label:       "&7Crate: &f{crate}"
   info-total-rewards:     "&7Total Rewards: &f{count}"
@@ -330,3 +300,18 @@ gui-messages:
   info-controls-left:     "&7&oLeft Click  &8— &7&oPreview rewards"
   info-controls-right:    "&7&oRight Click &8— &7&oOpen crate"
   info-controls-shift:    "&7&oShift+Right &8— &7&oMass open"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ANIMATION CONFIGURATION
+# ─────────────────────────────────────────────────────────────────────────────
+animations:
+  choice:
+    # Title of the CHOICE animation menu. Placeholder: {crate} -> crate name
+    title: "&0&lChoose Reward: {crate}"
+    filler:
+      # Material for background/filler slots in Choice GUI.
+      material: "GRAY_STAINED_GLASS_PANE"
+      # Custom Model Data for filler item. Set to -1 to disable.
+      custom-model-data: -1
+      # Nexo item ID to override background filler. Set to "" to disable.
+      nexo-item: ""

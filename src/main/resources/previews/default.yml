@@ -1,0 +1,94 @@
+sortOrder: RARITY_DESC
+showActualItem: true
+settings:
+  type: REWARDS_PREVIEW
+  title: 
+  rows: 4
+  showPity: false
+  showKeyBalance: true
+  showChance: true
+  showWeight: false
+  chanceFormat: "&7Chance: &e{chance}%"
+  refresh:
+    enabled: false
+    rate: 20
+  on-open-actions: []
+pagination:
+  direction-items: HORIZONTAL
+  align-items: LEFT
+  slots: 10-16, 19-25
+  fill-item:
+    material: PAPER
+    custom-model-data: 0
+    item-model: nexo:blank
+    glow: false
+    display-name: '&e'
+    lore: []
+    actions: []
+  previous-item:
+    slot: '28'
+    material: PAPER
+    amount: 1
+    custom-model-data: 0
+    item-model: nexo:back_button
+    glow: false
+    hide-attributes: false
+    display-name: '&6Previous page - Page %page%'
+    lore: []
+    actions:
+      - '[SOUND] block_note_block_xylophone; 1; 1'
+  next-item:
+    slot: '34'
+    material: PAPER
+    amount: 1
+    custom-model-data: 0
+    item-model: nexo:next_button
+    glow: false
+    hide-attributes: false
+    display-name: '&6Next page - Page %page%'
+    lore: []
+    actions:
+      - '[SOUND] block_note_block_xylophone; 1; 1'
+items:
+  info:
+    slot: '8'
+    material: PAPER
+    amount: 1
+    custom-model-data: 0
+    item-model: nexo:blank
+    glow: true
+    hide-attributes: false
+    display-name: '&e'
+    lore: []
+    actions:
+      - '[SOUND] block_note_block_xylophone; 1; 1'
+  close-menu:
+    slot: '0'
+    material: PAPER
+    amount: 1
+    custom-model-data: 0
+    item-model: nexo:blank
+    glow: false
+    hide-attributes: false
+    display-name: '&cTutup'
+    lore: []
+    actions:
+      - '[CLOSE_INVENTORY]'
+      - '[SOUND] block_note_block_xylophone; 1; 1'
+reward:
+  random-mode:
+    name: '&7%reward_name%'
+    lore:
+    - '%reward_lore%'
+    - ''
+    - '&eYour percentage: &6%percentage%%'
+    - '&eYour chance: &6%chance%%'
+    - ''
+  selective-mode:
+    name: '&7%reward_name%'
+    lore:
+    - '%reward_lore%'
+    - ''
+    - '&eRequired Keys: &6%required_keys%'
+    - ''
+    - '&7(This lore is configured at the menus folder)'

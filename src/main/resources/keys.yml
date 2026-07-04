@@ -1,0 +1,43 @@
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║   VisantaraCrates — keys.yml                                            ║
+# ║   Central key definitions. Each key can be shared across crates.        ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
+#
+# Key IDs are referenced in crate files under "requiredKeys.keyId".
+# One key can open multiple crates, and one crate can accept multiple keys.
+#
+# Fields:
+#   display-name   — Display name shown in GUI and messages (& color codes).
+#   material       — Bukkit Material for physical keys. Default: TRIPWIRE_HOOK.
+#   custom-model-data — For resource pack. Set to -1 to disable.
+#   lore           — Extra lore lines for the physical key item.
+#   nexo-item      — (Optional) Nexo item ID. When set, the physical key
+#                     uses the Nexo custom item instead of vanilla material.
+
+keys:
+  rarekey:
+    display-name: "&fRare Crate Key"
+    material: PAPER
+    custom-model-data: 1070
+    nexo-item: "rare_crate_key"
+    lore:
+      - "&7Key ID: &eRareKey"
+      - "&8▸ &7Right-click a crate to use."
+
+  legendarykey:
+    display-name: "&fLegendary Crate Key"
+    material: PAPER
+    custom-model-data: 1071
+    nexo-item: "legendary_crate_key"
+    lore:
+      - "&7Key ID: &eLegendaryKey"
+      - "&8▸ &7Right-click a crate to use."
+
+  vipkey:
+    display-name: "&fVote Crate Key"
+    material: PAPER
+    custom-model-data: 1069
+    nexo-item: "vote_crate_key"
+    lore:
+      - "&7Key ID: &eVIPKey"
+      - "&8▸ &7Right-click a crate to use."
