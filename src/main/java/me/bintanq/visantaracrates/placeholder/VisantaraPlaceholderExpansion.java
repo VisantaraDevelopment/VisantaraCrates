@@ -145,8 +145,7 @@ public class VisantaraPlaceholderExpansion extends PlaceholderExpansion {
 
         // %VisantaraCrates_keys_<keyId>%
         if (params.startsWith("keys_")) {
-            String keyId = params.substring(5);
-            return String.valueOf(plugin.getKeyManager().getVirtualBalance(player, keyId));
+            return "0";
         }
 
         // %VisantaraCrates_pity_max_<crateId>%

@@ -22,7 +22,11 @@ commands:
   cratesmigrate:
     description: Migrate virtual keys from phoenix database to physical crates
     aliases: [ keymigrate, vcmigrate ]
-    usage: /cratesmigrate [player]
+    usage: /cratesmigrate
+  cratesmigrateadmin:
+    description: Migrate other player's virtual keys to physical crates (Admin only)
+    usage: /cratesmigrateadmin <player>
+    permission: visantaracrates.admin
 
 
 permissions:

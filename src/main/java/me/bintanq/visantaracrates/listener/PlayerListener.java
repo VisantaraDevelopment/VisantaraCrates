@@ -25,7 +25,6 @@ public class PlayerListener implements Listener {
     public void onPreLogin(AsyncPlayerPreLoginEvent event) {
         try {
             playerDataManager.loadPlayer(event.getUniqueId()).get();
-            plugin.getKeyManager().preloadKeys(event.getUniqueId());
         } catch (Exception e) {
             Logger.debug("Pre-login data load failed for " + event.getUniqueId() + ": " + e.getMessage());
         }

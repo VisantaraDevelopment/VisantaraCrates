@@ -44,7 +44,6 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
             case "pity"      -> cmdPity(sender, args);
             case "resetpity" -> cmdResetPity(sender, args);
             case "resetlifetime" -> cmdResetLifetime(sender, args);
-            case "keys"      -> cmdCheckKeys(sender, args);
             default          -> sendHelp(sender);
         }
         return true;
@@ -60,150 +59,55 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
         if (!sender.hasPermission("VisantaraCrates.key.give") && !sender.hasPermission("VisantaraCrates.admin")) {
             MessageManager.sendNoPermission(sender); return;
         }
-        if (args.length < 4) { MessageManager.send(sender, "usage-give"); return; }
-
-        // Check if giving a physical crate: /vc give physical <player> <crateId> <amount> [free|premium]
-        if (args[1].equalsIgnoreCase("physical")) {
-            if (args.length < 5) {
-                sender.sendMessage(colorize("&cUsage: /vc give physical <player> <crateId> <amount> [free|premium]"));
-                return;
-            }
-            String targetInput = args[2];
-            String crateId = args[3];
-            int amount;
-            try {
-                amount = Integer.parseInt(args[4]);
-                if (amount <= 0) throw new NumberFormatException();
-            } catch (NumberFormatException e) {
-                MessageManager.sendInvalidNumber(sender); return;
-            }
-
-            Crate crate = plugin.getCrateManager().getCrate(crateId);
-            if (crate == null) {
-                sender.sendMessage(colorize("&cCrate not found: " + crateId));
-                return;
-            }
-
-            Player online = Bukkit.getPlayer(targetInput);
-            if (online == null) {
-                MessageManager.sendPlayerNotFound(sender, targetInput);
-                return;
-            }
-
-            String type = crate.getCrateType(); // Default type from the yml definition
-            if (args.length >= 6) {
-                String typeInput = args[5].toUpperCase();
-                if (typeInput.equals("FREE") || typeInput.equals("PREMIUM")) {
-                    type = typeInput;
-                } else {
-                    sender.sendMessage(colorize("&cInvalid type. Must be 'free' or 'premium'."));
-                    return;
-                }
-            }
-            if (crateId.equalsIgnoreCase("VIPCrate")) {
-                type = "FREE";
-            }
-
-            ItemStack item = PhysicalCrateItem.create(plugin, crate, amount, type);
-            if (online.getInventory().firstEmpty() == -1) {
-                online.getWorld().dropItemNaturally(online.getLocation(), item);
-            } else {
-                online.getInventory().addItem(item);
-            }
-
-            sender.sendMessage(colorize("&aSuccessfully gave " + amount + "x physical " + type + " " + crate.getId() + " crate(s) to " + online.getName()));
+        if (args.length < 5 || !args[1].equalsIgnoreCase("physical")) {
+            sender.sendMessage(colorize("&cUsage: /vc give physical <player> <crateId> <amount> [free/premium]"));
             return;
         }
 
-        // Standard key give command
-        String targetInput = args[1];
-        String keyId;
+        String targetInput = args[2];
+        String crateId = args[3];
         int amount;
         try {
-            keyId  = args[2];
-            amount = Integer.parseInt(args[3]);
+            amount = Integer.parseInt(args[4]);
             if (amount <= 0) throw new NumberFormatException();
         } catch (NumberFormatException e) {
             MessageManager.sendInvalidNumber(sender); return;
         }
 
-        // Map keyId to Crate ID and Type dynamically
-        String crateId = null;
-        String crateType = "FREE";
-
-        String cleanKey = keyId.toLowerCase();
-        if (cleanKey.startsWith("premium")) {
-            crateType = "PREMIUM";
-            cleanKey = cleanKey.substring(7);
-        }
-        cleanKey = cleanKey.replace("key", "").replace("crate", "");
-        if (cleanKey.equals("vote")) {
-            cleanKey = "vip";
-        }
-
-        for (String cId : crateIds()) {
-            String cleanCrate = cId.toLowerCase().replace("crate", "");
-            if (cleanCrate.equals(cleanKey)) {
-                crateId = cId;
-                break;
-            }
-        }
-
-        // If thread-local active crate type is set, override the resolved type!
-        String activeType = me.bintanq.visantaracrates.VisantaraCrates.ACTIVE_CRATE_TYPE.get();
-        if (activeType != null) {
-            if ("VIPCrate".equalsIgnoreCase(crateId)) {
-                crateType = "FREE";
-            } else {
-                crateType = activeType;
-            }
-        }
-
-        if (crateId != null) {
-            // Give physical crate item instead of key!
-            Crate crate = plugin.getCrateManager().getCrate(crateId);
-            if (crate == null) {
-                sender.sendMessage(colorize("&cCrate not found: " + crateId));
-                return;
-            }
-            Player online = Bukkit.getPlayer(targetInput);
-            if (online != null) {
-                ItemStack item = PhysicalCrateItem.create(plugin, crate, amount, crateType);
-                if (online.getInventory().firstEmpty() == -1) {
-                    online.getWorld().dropItemNaturally(online.getLocation(), item);
-                } else {
-                    online.getInventory().addItem(item);
-                }
-                sender.sendMessage(colorize("&aSuccessfully gave " + amount + "x physical " + crateType + " " + crate.getId() + " crate(s) to " + online.getName() + " (redirected from key reward)"));
-            } else {
-                sender.sendMessage(colorize("&cCannot give physical crate to offline player: " + targetInput));
-            }
-            return;
-        }
-
-        if (!plugin.getKeyManager().getKnownKeyIds().contains(keyId)) {
-            MessageManager.send(sender, "key-invalid", "{key}", keyId);
+        Crate crate = plugin.getCrateManager().getCrate(crateId);
+        if (crate == null) {
+            sender.sendMessage(colorize("&cCrate not found: " + crateId));
             return;
         }
 
         Player online = Bukkit.getPlayer(targetInput);
-        if (online != null) {
-            plugin.getKeyManager().giveKey(online, keyId, amount);
-            MessageManager.send(sender, "key-given-sender",
-                    "{amount}", String.valueOf(amount), "{key}", keyId, "{player}", online.getName());
+        if (online == null) {
+            MessageManager.sendPlayerNotFound(sender, targetInput);
             return;
         }
 
-        MessageManager.send(sender, "key-give-resolving", "{player}", targetInput);
-        plugin.getKeyManager().giveKeyOffline(targetInput, keyId, amount)
-                .thenAcceptAsync(success -> {
-                    if (success) {
-                        MessageManager.send(sender, "key-given-sender",
-                                "{amount}", String.valueOf(amount), "{key}", keyId, "{player}", targetInput);
-                    } else {
-                        MessageManager.sendPlayerNotFound(sender, targetInput);
-                    }
-                }, runnable -> Bukkit.getScheduler().runTask(plugin, runnable));
+        String type = crate.getCrateType(); // Default type from the yml definition
+        if (args.length >= 6) {
+            String typeInput = args[5].toUpperCase();
+            if (typeInput.equals("FREE") || typeInput.equals("PREMIUM")) {
+                type = typeInput;
+            } else {
+                sender.sendMessage(colorize("&cInvalid type. Must be 'free' or 'premium'."));
+                return;
+            }
+        }
+        if (crateId.equalsIgnoreCase("VIPCrate")) {
+            type = "FREE";
+        }
+
+        ItemStack item = PhysicalCrateItem.create(plugin, crate, amount, type);
+        if (online.getInventory().firstEmpty() == -1) {
+            online.getWorld().dropItemNaturally(online.getLocation(), item);
+        } else {
+            online.getInventory().addItem(item);
+        }
+
+        sender.sendMessage(colorize("&aSuccessfully gave " + amount + "x physical " + type + " " + crate.getId() + " crate(s) to " + online.getName()));
     }
 
     private String colorize(String s) {
@@ -446,17 +350,7 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
         MessageManager.send(sender, "pity-reset-done", "{player}", target.getName(), "{crate}", crateId);
     }
 
-    private void cmdCheckKeys(CommandSender sender, String[] args) {
-        if (!sender.hasPermission("VisantaraCrates.admin")) { MessageManager.sendNoPermission(sender); return; }
-        if (args.length < 3) { MessageManager.send(sender, "usage-keys"); return; }
 
-        Player target = Bukkit.getPlayer(args[1]);
-        if (target == null) { MessageManager.sendPlayerNotFound(sender, args[1]); return; }
-
-        plugin.getDatabaseManager().getVirtualKeys(target.getUniqueId(), args[2])
-                .thenAccept(balance -> MessageManager.send(sender, "keys-balance",
-                        "{player}", target.getName(), "{key}", args[2], "{balance}", String.valueOf(balance)));
-    }
 
     private void cmdResetLifetime(CommandSender sender, String[] args) {
         if (!sender.hasPermission("VisantaraCrates.admin")) { MessageManager.sendNoPermission(sender); return; }
@@ -495,7 +389,6 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
         if (admin && plugin.isPityEnabled()) MessageManager.send(sender, "help-pity");
         if (admin && plugin.isPityEnabled()) MessageManager.send(sender, "help-resetpity");
         if (admin) MessageManager.send(sender, "help-resetlifetime");
-        if (admin) MessageManager.send(sender, "help-keys-cmd");
 
         if (admin) {
             for (String key : List.of("controls-header","ctrl-left","ctrl-right","ctrl-shift")) {
@@ -513,7 +406,7 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             List<String> options = new ArrayList<>(List.of("info", "list"));
             if (admin) {
-                options.addAll(List.of("reload", "open", "setloc", "delloc", "resetlifetime", "keys"));
+                options.addAll(List.of("reload", "open", "setloc", "delloc", "resetlifetime"));
                 if (plugin.isPityEnabled()) {
                     options.addAll(List.of("pity", "resetpity"));
                 }
@@ -529,7 +422,7 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
                     args.length == 2 ? filter(crateIds(), args[1]) : List.of();
             case "give" ->
                     (admin || give) ? (
-                            args.length == 2 ? filter(mergeLists(onlinePlayers(), List.of("physical")), args[1])
+                            args.length == 2 ? filter(List.of("physical"), args[1])
                             : args[1].equalsIgnoreCase("physical") ? (
                                     args.length == 3 ? filter(onlinePlayers(), args[2])
                                     : args.length == 4 ? filter(crateIds(), args[3])
@@ -537,8 +430,6 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
                                     : args.length == 6 ? filter(List.of("free","premium"), args[5])
                                     : List.of()
                               )
-                            : args.length == 3 ? filter(knownKeyIds(), args[2])
-                            : args.length == 4 ? filter(List.of("1","5","10","32","64"), args[3])
                             : List.of()
                     ) : List.of();
             case "pity","resetpity" ->
@@ -548,10 +439,6 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
             case "resetlifetime" ->
                     admin ? (args.length == 2 ? filter(onlinePlayers(), args[1])
                             : args.length == 3 ? filter(crateIds(), args[2])
-                            : List.of()) : List.of();
-            case "keys" ->
-                    admin ? (args.length == 2 ? filter(onlinePlayers(), args[1])
-                            : args.length == 3 ? filter(knownKeyIds(), args[2])
                             : List.of()) : List.of();
             default -> List.of();
         };
@@ -567,8 +454,6 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
 
     private List<String> crateIds()      { return new ArrayList<>(crateManager().getCrateRegistry().keySet()); }
     private List<String> onlinePlayers() { return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()); }
-    private List<String> knownKeyIds()   { return new ArrayList<>(plugin.getKeyManager().getKnownKeyIds()); }
-
     private List<String> mergeLists(List<String> a, List<String> b) {
         List<String> res = new ArrayList<>(a);
         res.addAll(b);

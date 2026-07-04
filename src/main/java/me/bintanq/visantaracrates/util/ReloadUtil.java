@@ -9,7 +9,6 @@ public final class ReloadUtil {
     public static void reloadAll(VisantaraCrates plugin) {
         plugin.reloadConfig();
         MessageManager.init(plugin);
-        plugin.getKeyManager().reload();
         if (plugin.getPreviewManager() != null) plugin.getPreviewManager().loadAllPreviews();
 
         if (plugin.getRarityManager() != null) plugin.getRarityManager().reload();

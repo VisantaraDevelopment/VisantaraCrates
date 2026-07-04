@@ -34,15 +34,20 @@ public class MigrateCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player targetPlayer;
-        if (args.length == 0) {
+        if (label.equalsIgnoreCase("cratesmigrate")) {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(colorize("&cConsole must specify a player: /cratesmigrate <player>"));
+                sender.sendMessage(colorize("&cOnly players can migrate themselves."));
                 return true;
             }
             targetPlayer = (Player) sender;
         } else {
+            // cratesmigrateadmin
             if (!sender.hasPermission("visantaracrates.admin")) {
-                sender.sendMessage(colorize("&cYou do not have permission to migrate other players."));
+                sender.sendMessage(colorize("&cYou do not have permission to use this command."));
+                return true;
+            }
+            if (args.length == 0) {
+                sender.sendMessage(colorize("&cUsage: /cratesmigrateadmin <player>"));
                 return true;
             }
             targetPlayer = Bukkit.getPlayer(args[0]);

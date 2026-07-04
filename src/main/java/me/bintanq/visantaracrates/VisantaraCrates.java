@@ -124,10 +124,11 @@ public final class VisantaraCrates extends JavaPlugin {
         Logger.info("Listeners &aregistered.");
 
         new VisantaraCratesCommand(this);
-        var migrateCmd = getCommand("cratesmigrate");
-        if (migrateCmd != null) {
-            migrateCmd.setExecutor(new me.bintanq.visantaracrates.command.MigrateCommand(this));
-        }
+        var migrateExecutor = new me.bintanq.visantaracrates.command.MigrateCommand(this);
+        var cmd1 = getCommand("cratesmigrate");
+        if (cmd1 != null) cmd1.setExecutor(migrateExecutor);
+        var cmd2 = getCommand("cratesmigrateadmin");
+        if (cmd2 != null) cmd2.setExecutor(migrateExecutor);
         Logger.info("Commands &aregistered.");
 
         particleManager = new ParticleManager(this);
