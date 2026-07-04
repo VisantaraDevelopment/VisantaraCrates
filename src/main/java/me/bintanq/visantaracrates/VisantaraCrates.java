@@ -65,12 +65,10 @@ public final class VisantaraCrates extends JavaPlugin {
         Logger.info("&b=============================");
 
         saveDefaultConfig();
-        saveResource("keys.yml", false);
         saveResource("previews/default.yml", false);
         saveResource("crates/RareCrate.yml", false);
         saveResource("crates/VIPCrate.yml", false);
         saveResource("crates/LegendaryCrate.yml", false);
-        saveResource("visantaracrates.db", false);
         GsonProvider.init();
         me.bintanq.visantaracrates.util.MessageManager.init(this);
         me.bintanq.visantaracrates.util.PhysicalCrateItem.init(this);
