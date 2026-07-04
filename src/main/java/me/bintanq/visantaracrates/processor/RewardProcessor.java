@@ -152,12 +152,7 @@ public class RewardProcessor {
                     Logger.warn("Crate '" + reward.getCrateId() + "' not found for reward '" + reward.getId() + "'.");
                     yield new ItemStack(Material.AIR);
                 }
-                String activeType = VisantaraCrates.ACTIVE_CRATE_TYPE.get();
-                if (activeType == null) activeType = "FREE";
-                if (reward.getCrateId().equalsIgnoreCase("VIPCrate")) {
-                    activeType = "FREE";
-                }
-                yield me.bintanq.visantaracrates.util.PhysicalCrateItem.create(plugin, targetCrate, reward.getAmount(), activeType);
+                yield me.bintanq.visantaracrates.util.PhysicalCrateItem.create(plugin, targetCrate, reward.getAmount(), "FREE");
             }
         };
     }

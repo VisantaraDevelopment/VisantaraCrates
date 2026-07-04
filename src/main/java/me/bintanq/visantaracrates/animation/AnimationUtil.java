@@ -26,14 +26,7 @@ public final class AnimationUtil {
             if (plugin != null) {
                 var targetCrate = plugin.getCrateManager().getCrate(reward.getCrateId());
                 if (targetCrate != null) {
-                    String activeType = me.bintanq.visantaracrates.VisantaraCrates.ACTIVE_CRATE_TYPE.get();
-                    if (activeType == null) {
-                        activeType = "FREE";
-                    }
-                    if (reward.getCrateId().equalsIgnoreCase("VIPCrate")) {
-                        activeType = "FREE";
-                    }
-                    return me.bintanq.visantaracrates.util.PhysicalCrateItem.create(plugin, targetCrate, Math.max(1, reward.getAmount()), activeType);
+                    return me.bintanq.visantaracrates.util.PhysicalCrateItem.create(plugin, targetCrate, Math.max(1, reward.getAmount()), "FREE");
                 }
             }
         }
@@ -64,14 +57,7 @@ public final class AnimationUtil {
                 if (targetCrateId != null) {
                     var targetCrate = plugin.getCrateManager().getCrate(targetCrateId);
                     if (targetCrate != null) {
-                        String activeType = me.bintanq.visantaracrates.VisantaraCrates.ACTIVE_CRATE_TYPE.get();
-                        if (activeType == null) {
-                            activeType = "FREE";
-                        }
-                        if (targetCrateId.equalsIgnoreCase("VIPCrate")) {
-                            activeType = "FREE";
-                        }
-                        return me.bintanq.visantaracrates.util.PhysicalCrateItem.create(plugin, targetCrate, Math.max(1, reward.getAmount()), activeType);
+                        return me.bintanq.visantaracrates.util.PhysicalCrateItem.create(plugin, targetCrate, Math.max(1, reward.getAmount()), "FREE");
                     }
                 }
             }

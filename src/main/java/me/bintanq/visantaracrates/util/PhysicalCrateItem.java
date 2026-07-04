@@ -89,10 +89,30 @@ public final class PhysicalCrateItem {
             typeKey = new NamespacedKey(plugin, PDC_CRATE_TYPE);
         }
 
-        // Clean up stacking blockers (unique instance/UUID tags added by custom item plugins)
+        // Clean up stacking blockers (unique instance/UUID/timestamp tags added by custom item plugins)
         for (NamespacedKey key : new ArrayList<>(meta.getPersistentDataContainer().getKeys())) {
             String keyName = key.getKey().toLowerCase();
-            if (keyName.contains("uuid") || keyName.contains("instance") || keyName.contains("unique") || keyName.contains("serial")) {
+            String ns = key.getNamespace().toLowerCase();
+            
+            // Keep VisantaraCrates keys
+            if (ns.equals("visantaracrates")) {
+                continue;
+            }
+            
+            // Keep custom item identifying ID keys, remove other custom keys to ensure stacking
+            if (ns.equals("nexo") || ns.equals("itemsadder") || ns.equals("oraxen") || ns.equals("mmoitems")) {
+                if (keyName.equals("id") || keyName.endsWith("_id")) {
+                    continue;
+                }
+                meta.getPersistentDataContainer().remove(key);
+                continue;
+            }
+            
+            // For other namespaces, remove if they look like unique/instance keys
+            if (keyName.contains("uuid") || keyName.contains("instance") || keyName.contains("unique") 
+                || keyName.contains("serial") || keyName.contains("timestamp") || keyName.contains("random")
+                || keyName.contains("created") || keyName.contains("hash") || keyName.contains("time")
+                || keyName.contains("updated")) {
                 meta.getPersistentDataContainer().remove(key);
             }
         }
