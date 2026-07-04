@@ -63,9 +63,13 @@ public class CrateListener implements Listener {
                     type = crate.getCrateType();
                 }
 
-                // Consume 1 physical crate item
-                item.setAmount(item.getAmount() - 1);
-                player.getInventory().setItemInMainHand(item);
+                // Consume 1 physical crate item safely to prevent duplication bugs
+                if (item.getAmount() > 1) {
+                    item.setAmount(item.getAmount() - 1);
+                    player.getInventory().setItemInMainHand(item);
+                } else {
+                    player.getInventory().setItemInMainHand(null);
+                }
 
                 // Start GUI
                 me.bintanq.visantaracrates.gui.CrateGUI.CrateOpeningHolder gui =
