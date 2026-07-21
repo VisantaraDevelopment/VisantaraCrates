@@ -381,7 +381,7 @@ public class CrateManager {
             playerDataManager.incrementLifetimeOpens(player.getUniqueId(), crateId);
 
             // Fire API events
-            RewardSnapshot snap = RewardSnapshot.from(result.getReward(), crate.getTotalWeight());
+            RewardSnapshot snap = RewardSnapshot.from(result.getReward(), crate.getRewardChance(result.getReward()));
             CrateRewardEvent rewardEvent = new CrateRewardEvent(player, crateId, snap);
             Bukkit.getPluginManager().callEvent(rewardEvent);
             CrateOpenEvent openEvent = new CrateOpenEvent(player, crateId, snap,
@@ -452,7 +452,7 @@ public class CrateManager {
             playerDataManager.incrementLifetimeOpens(player.getUniqueId(), crateId);
 
             // Fire API events for mass open
-            RewardSnapshot snap = RewardSnapshot.from(result.getReward(), crate.getTotalWeight());
+            RewardSnapshot snap = RewardSnapshot.from(result.getReward(), crate.getRewardChance(result.getReward()));
             CrateRewardEvent rewardEvent = new CrateRewardEvent(player, crateId, snap);
             Bukkit.getPluginManager().callEvent(rewardEvent);
             if (rewardEvent.isCancelled()) return false;

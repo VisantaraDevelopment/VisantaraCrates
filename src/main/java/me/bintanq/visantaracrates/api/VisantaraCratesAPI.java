@@ -234,9 +234,8 @@ public final class VisantaraCratesAPI {
     public List<RewardSnapshot> getRewards(String crateId) {
         Crate c = plugin.getCrateManager().getCrate(crateId);
         if (c == null) return Collections.emptyList();
-        double totalWeight = c.getTotalWeight();
         return c.getRewards().stream()
-                .map(r -> RewardSnapshot.from(r, totalWeight))
+                .map(r -> RewardSnapshot.from(r, c.getRewardChance(r)))
                 .collect(Collectors.toUnmodifiableList());
     }
 

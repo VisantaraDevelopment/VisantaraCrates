@@ -19,38 +19,39 @@
 #       In reward JSONs and pity config, use UPPERCASE (e.g. "COMMON").
 
 rarities:
-
+  
   common:
-    displayName: "Common"
-    color: "&#B9B9B9"
-    hexColor: "#B9B9B9"
+    displayName: Common
+    color: '&#B9B9B9'
+    hexColor: '#B9B9B9'
     order: 0
-    borderMaterial: "GRAY_STAINED_GLASS_PANE"
-    icon: ""
-
+    borderMaterial: GRAY_STAINED_GLASS_PANE
+    icon: 
+  
   rare:
-    displayName: "Rare"
-    color: "&#00EAE2"
-    hexColor: "#00EAE2"
+    displayName: Rare
+    color: '&#00EAE2'
+    hexColor: '#00EAE2'
     order: 1
-    borderMaterial: "BLUE_STAINED_GLASS_PANE"
-    icon: ""
-
+    borderMaterial: BLUE_STAINED_GLASS_PANE
+    icon: 
+  
   epic:
-    displayName: "Epic"
-    color: "&#9C00F6"
-    hexColor: "#9C00F6"
+    displayName: Epic
+    color: '&#9C00F6'
+    hexColor: '#9C00F6'
     order: 2
-    borderMaterial: "MAGENTA_STAINED_GLASS_PANE"
-    icon: ""
-
+    borderMaterial: MAGENTA_STAINED_GLASS_PANE
+    icon: 
+  
   legendary:
-    displayName: "Legendary"
-    color: "&#FFC800"
-    hexColor: "#FFC800"
+    displayName: Legendary
+    color: '&#FFC800'
+    hexColor: '#FFC800'
     order: 3
-    borderMaterial: "ORANGE_STAINED_GLASS_PANE"
-    icon: ""
+    borderMaterial: ORANGE_STAINED_GLASS_PANE
+    icon: 
+config-version: 1
 
 # ─── CUSTOM RARITY EXAMPLES (uncomment to enable) ───────────────────
 #

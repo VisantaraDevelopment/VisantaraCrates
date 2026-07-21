@@ -2,46 +2,51 @@ id: "VIPCrate"
 displayName: "&aVote Crate"
 previewId: "default"
 pity:
-  enabled: true
+  enabled: false
   threshold: 50
   rareRarityMinimum: "RARE"
   bonusChancePerOpen: 2.0
   softPityStart: 40
 enabled: true
+rarity-chances:
+  COMMON: 58.0
+  RARE: 26.0
+  EPIC: 12.0
+  LEGENDARY: 4.0
 openSound: "BLOCK_NOTE_BLOCK_HAT"
 winSound: "UI_TOAST_CHALLENGE_COMPLETE"
 rewards:
   - id: "reward_0"
     displayName: "+4 Iron"
-    weight: 12.25
+    weight: 14.5
     rarity: "COMMON"
     type: "VANILLA"
     material: "IRON_INGOT"
     amount: 4
   - id: "reward_1"
     displayName: "+4 Gold"
-    weight: 12.25
+    weight: 14.5
     rarity: "COMMON"
     type: "VANILLA"
     material: "GOLD_INGOT"
     amount: 4
   - id: "reward_2"
     displayName: "+8 Coal"
-    weight: 12.25
+    weight: 14.5
     rarity: "COMMON"
     type: "VANILLA"
     material: "COAL"
     amount: 8
   - id: "reward_3"
     displayName: "+8 Bread"
-    weight: 12.25
+    weight: 14.5
     rarity: "COMMON"
     type: "VANILLA"
     material: "BREAD"
     amount: 8
   - id: "reward_4"
     displayName: "+50 Claim Blocks"
-    weight: 9.6667
+    weight: 8.6667
     rarity: "RARE"
     type: "COMMAND"
     nexoId: "add_claim_block_icon"
@@ -50,7 +55,7 @@ rewards:
       - "console:adjustbonusclaimblocks %player% 50"
   - id: "reward_5"
     displayName: "+100 Gems"
-    weight: 9.6667
+    weight: 8.6667
     rarity: "RARE"
     type: "COMMAND"
     nexoId: "gem"
@@ -59,14 +64,14 @@ rewards:
       - "console:eco give %player% 100"
   - id: "reward_6"
     displayName: "+2 Diamond"
-    weight: 9.6667
+    weight: 8.6667
     rarity: "RARE"
     type: "VANILLA"
     material: "DIAMOND"
     amount: 2
   - id: "reward_7"
     displayName: "+100 Claim Blocks"
-    weight: 7.5
+    weight: 6.0
     rarity: "EPIC"
     type: "COMMAND"
     nexoId: "add_claim_block_icon"
@@ -75,7 +80,7 @@ rewards:
       - "console:adjustbonusclaimblocks %player% 100"
   - id: "reward_8"
     displayName: "+10 Minutes Fly"
-    weight: 7.5
+    weight: 6.0
     rarity: "EPIC"
     type: "COMMAND"
     nexoId: "fly_icon"
@@ -84,7 +89,7 @@ rewards:
       - "console:tf give %player% 10m"
   - id: "reward_9"
     displayName: "1x Rare Crate"
-    weight: 7.0
+    weight: 4.0
     rarity: "LEGENDARY"
     type: "CRATE"
     crateId: "RareCrate"

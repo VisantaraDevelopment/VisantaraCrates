@@ -9,10 +9,15 @@ locations:
   z: 149.0
   yaw: 0.0
   pitch: 0.0
+rarity-chances:
+  COMMON: 58.0
+  RARE: 26.0
+  EPIC: 12.0
+  LEGENDARY: 4.0
 rewards:
 - id: reward_0
   displayName: "+400 Gems"
-  weight: 12.25
+  weight: 14.5
   rarity: COMMON
   type: COMMAND
   material: null
@@ -33,7 +38,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_1
   displayName: "+30 Minutes Fly"
-  weight: 12.25
+  weight: 14.5
   rarity: COMMON
   type: COMMAND
   material: null
@@ -54,7 +59,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_2
   displayName: "+2 Slot Token"
-  weight: 12.25
+  weight: 14.5
   rarity: COMMON
   type: COMMAND
   material: null
@@ -75,7 +80,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_3
   displayName: "+200 Claim Blocks"
-  weight: 12.25
+  weight: 14.5
   rarity: COMMON
   type: COMMAND
   material: null
@@ -96,7 +101,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_4
   displayName: "+650 Gems"
-  weight: 7.25
+  weight: 6.5
   rarity: RARE
   type: COMMAND
   material: null
@@ -117,7 +122,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_5
   displayName: "+40 Minutes Fly"
-  weight: 7.25
+  weight: 6.5
   rarity: RARE
   type: COMMAND
   material: null
@@ -138,7 +143,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_6
   displayName: "+3 Slot Token"
-  weight: 7.25
+  weight: 6.5
   rarity: RARE
   type: COMMAND
   material: null
@@ -159,7 +164,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_7
   displayName: "+350 Claim Blocks"
-  weight: 7.25
+  weight: 6.5
   rarity: RARE
   type: COMMAND
   material: null
@@ -180,7 +185,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_8
   displayName: "+1000 Gems"
-  weight: 3.75
+  weight: 3.0
   rarity: EPIC
   type: COMMAND
   material: null
@@ -201,7 +206,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_9
   displayName: "+60 Minutes Fly"
-  weight: 3.75
+  weight: 3.0
   rarity: EPIC
   type: COMMAND
   material: null
@@ -222,7 +227,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_10
   displayName: "+4 Slot Token"
-  weight: 3.75
+  weight: 3.0
   rarity: EPIC
   type: COMMAND
   material: null
@@ -243,7 +248,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_11
   displayName: "+500 Claim Blocks"
-  weight: 3.75
+  weight: 3.0
   rarity: EPIC
   type: COMMAND
   material: null
@@ -263,12 +268,12 @@ rewards:
   broadcast: false
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_12
-  displayName: "2x Legendary Crate Key"
-  weight: 0.6364
+  displayName: "1x Legendary Crate Key"
+  weight: 0.363636
   rarity: LEGENDARY
   type: CRATE
   material: null
-  amount: 2.0
+  amount: 1.0
   itemName: null
   lore: []
   enchantments: []
@@ -284,7 +289,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_13
   displayName: "Legendary Helmet"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -304,7 +309,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_14
   displayName: "Legendary Chestplate"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -324,7 +329,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_15
   displayName: "Legendary Leggings"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -344,7 +349,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_16
   displayName: "Legendary Boots"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -364,7 +369,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_17
   displayName: "Legendary Sword"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -384,7 +389,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_18
   displayName: "Legendary Pickaxe"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -404,7 +409,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_19
   displayName: "Legendary Axe"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -424,7 +429,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_20
   displayName: "Legendary Shovel"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -444,7 +449,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_21
   displayName: "Legendary Hoe"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -464,7 +469,7 @@ rewards:
   broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
 - id: reward_22
   displayName: "Legendary Bow"
-  weight: 0.6364
+  weight: 0.363636
   rarity: LEGENDARY
   type: MMOITEMS
   material: null
@@ -699,7 +704,7 @@ buttons:
     displayName: '&aClick to reroll'
     lore: []
 claim-commands:
-- cratecoin give %player% legendary %amount%
+- "console:cc give %player% legendary %amount%"
 physical-item:
   material: CHEST
   nexoId: ''

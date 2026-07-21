@@ -83,7 +83,7 @@ buy-button:
   display-name: "&aBuy"
   lore:
     - "&7Click to open the crate store"
-  command: "store"
+  command: "console:deluxemenu open key-store Afif87123"
 
 # Coin Exchange button — executes command when clicked
 exchange-button:
@@ -93,7 +93,7 @@ exchange-button:
   display-name: "&bCoin Exchange"
   lore:
     - "&7Click to open the exchange menu"
-  command: "cratecoin gui"
+  command: "cc gui"
 
 # Filler item for all remaining empty slots
 filler:

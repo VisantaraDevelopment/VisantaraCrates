@@ -167,6 +167,9 @@ public class Crate {
     @SerializedName("claim-commands")
     private List<String> claimCommands = new ArrayList<>();
 
+    @SerializedName("rarity-chances")
+    private Map<String, Double> rarityChances = new HashMap<>();
+
     @SerializedName("physical-item")
     private PhysicalItemConfig physicalItem = new PhysicalItemConfig();
 
@@ -736,6 +739,57 @@ public class Crate {
 
 
     public List<Reward> getRewards() { return rewards; }
+
+    public Map<String, Double> getRarityChances() {
+        if (rarityChances == null) rarityChances = new HashMap<>();
+        return rarityChances;
+    }
+    public void setRarityChances(Map<String, Double> rarityChances) {
+        this.rarityChances = rarityChances;
+    }
+
+    public double getRewardChance(Reward reward) {
+        if (rarityChances == null || rarityChances.isEmpty()) {
+            double totalWeight = getTotalWeight();
+            return reward.calculatePercentage(totalWeight);
+        }
+
+        String rarity = reward.getRarity().toUpperCase();
+
+        // Filter rarity chances to active rarities that actually have rewards in this crate
+        java.util.Set<String> activeRarities = new java.util.HashSet<>();
+        for (Reward r : rewards) {
+            activeRarities.add(r.getRarity().toUpperCase());
+        }
+
+        Map<String, Double> filteredChances = new HashMap<>();
+        double totalChanceWeight = 0;
+        for (Map.Entry<String, Double> entry : rarityChances.entrySet()) {
+            String key = entry.getKey().toUpperCase();
+            if (activeRarities.contains(key)) {
+                filteredChances.put(key, entry.getValue());
+                totalChanceWeight += entry.getValue();
+            }
+        }
+
+        if (totalChanceWeight <= 0 || !filteredChances.containsKey(rarity)) {
+            double totalWeight = getTotalWeight();
+            return reward.calculatePercentage(totalWeight);
+        }
+
+        double rarityTierChance = filteredChances.get(rarity) / totalChanceWeight;
+
+        double rarityTotalWeight = rewards.stream()
+                .filter(r -> r.getRarity().equalsIgnoreCase(rarity))
+                .mapToDouble(Reward::getWeight)
+                .sum();
+
+        if (rarityTotalWeight <= 0) {
+            return 0;
+        }
+
+        return rarityTierChance * (reward.getWeight() / rarityTotalWeight) * 100.0;
+    }
 
     public long getCooldownMs() { return cooldownMs; }
     public void setCooldownMs(long cooldownMs) { this.cooldownMs = cooldownMs; }

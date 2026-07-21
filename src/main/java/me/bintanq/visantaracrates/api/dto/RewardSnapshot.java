@@ -23,12 +23,12 @@ public record RewardSnapshot(
      * @param totalWeight the total weight of all rewards in the crate
      * @return a read-only snapshot
      */
-    public static RewardSnapshot from(Reward r, double totalWeight) {
+    public static RewardSnapshot from(Reward r, double chancePercent) {
         return new RewardSnapshot(
                 r.getId(),
                 r.getDisplayName(),
                 r.getWeight(),
-                r.calculatePercentage(totalWeight),
+                chancePercent,
                 r.getRarity(),
                 r.getType().name(),
                 r.isBroadcast()

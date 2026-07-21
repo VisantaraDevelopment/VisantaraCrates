@@ -194,7 +194,7 @@ public class PreviewGUI {
 
     private List<String> formatRewardLore(List<String> templateLines, Reward reward, double totalWeight, Crate crate) {
         List<String> lore = new ArrayList<>();
-        double pct = reward.calculatePercentage(totalWeight);
+        double pct = crate.getRewardChance(reward);
         String chanceStr = formatChance(pct);
         String rarityColor = plugin.getRarityManager().getColor(reward.getRarity());
         String rarityName = plugin.getRarityManager().get(reward.getRarity()).getDisplayName();

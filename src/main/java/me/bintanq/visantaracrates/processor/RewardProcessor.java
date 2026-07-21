@@ -50,7 +50,84 @@ public class RewardProcessor {
                 ? applyPityBoost(rewards, pity, currentPity, crate.getId())
                 : rewards;
 
-        return buildResult(weightedRoll(effectiveRewards), false, currentPity);
+        Reward selected;
+        if (crate.getRarityChances() != null && !crate.getRarityChances().isEmpty()) {
+            selected = rollTwoStage(crate, effectiveRewards, pity, currentPity, pityGlobal);
+        } else {
+            selected = weightedRoll(effectiveRewards);
+        }
+
+        return buildResult(selected, false, currentPity);
+    }
+
+    private Reward rollTwoStage(Crate crate, List<Reward> effectiveRewards, Crate.PityConfig pity, int currentPity, boolean pityGlobal) {
+        Map<String, Double> rarityChances = crate.getRarityChances();
+        
+        // Find which rarities actually have rewards
+        Set<String> activeRarities = new HashSet<>();
+        for (Reward r : effectiveRewards) {
+            activeRarities.add(r.getRarity().toUpperCase());
+        }
+
+        // Copy and filter rarity chances
+        Map<String, Double> activeChances = new HashMap<>();
+        for (Map.Entry<String, Double> entry : rarityChances.entrySet()) {
+            String key = entry.getKey().toUpperCase();
+            if (activeRarities.contains(key)) {
+                activeChances.put(key, entry.getValue());
+            }
+        }
+
+        if (activeChances.isEmpty()) {
+            return weightedRoll(effectiveRewards);
+        }
+
+        // Apply soft pity boost to the rarity chances if pity is enabled and active
+        if (pityGlobal && pity.isEnabled() && currentPity >= pity.getSoftPityStart()) {
+            int stepsAboveSoft = currentPity - pity.getSoftPityStart();
+            double bonusPerRare = pity.getBonusChancePerOpen() * stepsAboveSoft; // percentage boost
+            List<String> rareRarities = plugin.getRarityManager().getIdsAtOrAbove(pity.getRareRarityMinimum());
+            
+            for (String rareRarity : rareRarities) {
+                String key = rareRarity.toUpperCase();
+                if (activeChances.containsKey(key)) {
+                    activeChances.put(key, activeChances.get(key) + bonusPerRare);
+                }
+            }
+        }
+
+        // Roll a rarity tier
+        double totalChanceWeight = activeChances.values().stream().mapToDouble(Double::doubleValue).sum();
+        if (totalChanceWeight <= 0) {
+            return weightedRoll(effectiveRewards);
+        }
+
+        double random = ThreadLocalRandom.current().nextDouble(totalChanceWeight);
+        double cumWeight = 0;
+        String selectedRarity = null;
+        for (Map.Entry<String, Double> entry : activeChances.entrySet()) {
+            cumWeight += entry.getValue();
+            if (random < cumWeight) {
+                selectedRarity = entry.getKey();
+                break;
+            }
+        }
+        if (selectedRarity == null) {
+            selectedRarity = activeChances.keySet().iterator().next();
+        }
+
+        // Filter effective rewards by selected rarity
+        final String finalRarity = selectedRarity;
+        List<Reward> tierRewards = effectiveRewards.stream()
+                .filter(r -> r.getRarity().equalsIgnoreCase(finalRarity))
+                .toList();
+
+        if (tierRewards.isEmpty()) {
+            return weightedRoll(effectiveRewards);
+        }
+
+        // Roll within the selected rarity tier
+        return weightedRoll(tierRewards);
     }
 
     private Reward weightedRoll(List<Reward> rewards) {

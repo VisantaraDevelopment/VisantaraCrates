@@ -2,27 +2,32 @@ id: "RareCrate"
 displayName: "&9Rare Crate"
 previewId: "default"
 pity:
-  enabled: true
+  enabled: false
   threshold: 50
   rareRarityMinimum: "RARE"
   bonusChancePerOpen: 2.0
   softPityStart: 40
 enabled: true
+rarity-chances:
+  COMMON: 58.0
+  RARE: 26.0
+  EPIC: 12.0
+  LEGENDARY: 4.0
 openSound: "BLOCK_NOTE_BLOCK_HAT"
 winSound: "UI_TOAST_CHALLENGE_COMPLETE"
 rewards:
   - id: "reward_0"
     displayName: "+2 Rare Coins"
-    weight: 9.8
+    weight: 11.6
     rarity: "COMMON"
     type: "COMMAND"
     nexoId: "rare_coin"
     amount: 2
     commands:
-      - "console:cratecoin give %player% rare 2"
+      - "console:cc give %player% rare 2"
   - id: "reward_1"
     displayName: "+100 Gems"
-    weight: 9.8
+    weight: 11.6
     rarity: "COMMON"
     type: "COMMAND"
     nexoId: "gem"
@@ -31,7 +36,7 @@ rewards:
       - "console:eco give %player% 100"
   - id: "reward_2"
     displayName: "+10 Minutes Fly"
-    weight: 9.8
+    weight: 11.6
     rarity: "COMMON"
     type: "COMMAND"
     nexoId: "fly_icon"
@@ -40,21 +45,21 @@ rewards:
       - "console:tf give %player% 10m"
   - id: "reward_3"
     displayName: "+2 Obsidian Pieces"
-    weight: 9.8
+    weight: 11.6
     rarity: "COMMON"
     type: "NEXO"
     nexoId: "obsidian_piece"
     amount: 2
   - id: "reward_4"
     displayName: "+2 Snowy Seed"
-    weight: 9.8
+    weight: 11.6
     rarity: "COMMON"
     type: "NEXO"
     nexoId: "snowy_seed"
     amount: 2
   - id: "reward_5"
     displayName: "+250 Gems"
-    weight: 7.25
+    weight: 6.5
     rarity: "RARE"
     type: "COMMAND"
     nexoId: "gem"
@@ -63,7 +68,7 @@ rewards:
       - "console:eco give %player% 250"
   - id: "reward_6"
     displayName: "+20 Minutes Fly"
-    weight: 7.25
+    weight: 6.5
     rarity: "RARE"
     type: "COMMAND"
     nexoId: "fly_icon"
@@ -72,7 +77,7 @@ rewards:
       - "console:tf give %player% 20m"
   - id: "reward_7"
     displayName: "+1 Slot Token"
-    weight: 7.25
+    weight: 6.5
     rarity: "RARE"
     type: "COMMAND"
     nexoId: "slot_token"
@@ -81,7 +86,7 @@ rewards:
       - "console:es giveslots slot_token %player% 1"
   - id: "reward_8"
     displayName: "+150 Claim Blocks"
-    weight: 7.25
+    weight: 6.5
     rarity: "RARE"
     type: "COMMAND"
     nexoId: "add_claim_block_icon"
@@ -90,7 +95,7 @@ rewards:
       - "console:adjustbonusclaimblocks %player% 150"
   - id: "reward_9"
     displayName: "+30 Minutes Fly"
-    weight: 5.0
+    weight: 4.0
     rarity: "EPIC"
     type: "COMMAND"
     nexoId: "fly_icon"
@@ -99,7 +104,7 @@ rewards:
       - "console:tf give %player% 30m"
   - id: "reward_10"
     displayName: "+400 Balance"
-    weight: 5.0
+    weight: 4.0
     rarity: "EPIC"
     type: "COMMAND"
     nexoId: "gem"
@@ -108,7 +113,7 @@ rewards:
       - "console:eco give %player% 400"
   - id: "reward_11"
     displayName: "+2 Slot Token"
-    weight: 5.0
+    weight: 4.0
     rarity: "EPIC"
     type: "COMMAND"
     nexoId: "slot_token"
@@ -117,19 +122,19 @@ rewards:
       - "console:es giveslots slot_token %player% 2"
   - id: "reward_12"
     displayName: "+1 Legendary Crate"
-    weight: 3.5
+    weight: 2.0
     rarity: "LEGENDARY"
     type: "CRATE"
     crateId: "LegendaryCrate"
     amount: 1
     broadcast: true
   - id: "reward_13"
-    displayName: "+2 Rare Crate"
-    weight: 3.5
+    displayName: "+1 Rare Crate"
+    weight: 2.0
     rarity: "LEGENDARY"
     type: "CRATE"
     crateId: "RareCrate"
-    amount: 2
+    amount: 1
     broadcast: true
 
 crate-type: FREE
@@ -218,4 +223,4 @@ physical-items:
       - "&#419CD8Right click to open"
 
 claim-commands:
-  - "cratecoin give %player% rare %amount%"
+  - "console:cc give %player% rare %amount%"

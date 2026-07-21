@@ -165,13 +165,7 @@ public class CrateStoreGUI {
                             event -> {
                                 Player p = (Player) event.getWhoClicked();
                                 p.playSound(p.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 1.0f, 1.0f);
-                                String cmd = cfg.getBuyButton().getCommand();
-                                if (cmd.startsWith("/")) {
-                                    cmd = cmd.substring(1);
-                                }
-                                if (!cmd.isEmpty()) {
-                                    p.performCommand(cmd);
-                                }
+                                executeStoreCommand(p, cfg.getBuyButton().getCommand());
                             }
                     );
                     gui.setItem(slot, buyItem);
@@ -189,13 +183,7 @@ public class CrateStoreGUI {
                             event -> {
                                 Player p = (Player) event.getWhoClicked();
                                 p.playSound(p.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 1.0f, 1.0f);
-                                String cmd = cfg.getExchangeButton().getCommand();
-                                if (cmd.startsWith("/")) {
-                                    cmd = cmd.substring(1);
-                                }
-                                if (!cmd.isEmpty()) {
-                                    p.performCommand(cmd);
-                                }
+                                executeStoreCommand(p, cfg.getExchangeButton().getCommand());
                             }
                     );
                     gui.setItem(slot, exchangeItem);
@@ -206,7 +194,7 @@ public class CrateStoreGUI {
         // 7. Add paginated reward items
         double totalWeight = crate.getTotalWeight();
         for (Reward reward : crate.getRewards()) {
-            GuiItem rewardItem = buildRewardGuiItem(reward, totalWeight, cfg);
+            GuiItem rewardItem = buildRewardGuiItem(reward, totalWeight, cfg, crate);
             gui.addItem(rewardItem);
         }
 
@@ -219,7 +207,7 @@ public class CrateStoreGUI {
 
     /* ─────────────────────── Reward Item Builder ─────────────────────── */
 
-    private GuiItem buildRewardGuiItem(Reward reward, double totalWeight, CrateStoreConfig cfg) {
+    private GuiItem buildRewardGuiItem(Reward reward, double totalWeight, CrateStoreConfig cfg, Crate crate) {
         // Try to materialize the actual item
         ItemStack base = null;
         try {
@@ -246,7 +234,7 @@ public class CrateStoreGUI {
 
             // Lore
             List<String> templateLore = cfg.getReward().getLore();
-            meta.setLore(formatRewardLore(templateLore, reward, totalWeight));
+            meta.setLore(formatRewardLore(templateLore, reward, totalWeight, crate));
 
             display.setItemMeta(meta);
         }
@@ -254,9 +242,9 @@ public class CrateStoreGUI {
         return ItemBuilder.from(display).asGuiItem();
     }
 
-    private List<String> formatRewardLore(List<String> templateLines, Reward reward, double totalWeight) {
+    private List<String> formatRewardLore(List<String> templateLines, Reward reward, double totalWeight, Crate crate) {
         List<String> lore = new ArrayList<>();
-        double pct = reward.calculatePercentage(totalWeight);
+        double pct = crate.getRewardChance(reward);
         String chanceStr = formatChance(pct);
         String rarityColor = plugin.getRarityManager().getColor(reward.getRarity());
         String rarityName = plugin.getRarityManager().get(reward.getRarity()).getDisplayName();
@@ -424,5 +412,19 @@ public class CrateStoreGUI {
     private String stripColor(String s) {
         if (s == null) return "";
         return org.bukkit.ChatColor.stripColor(colorize(s));
+    }
+
+    private void executeStoreCommand(Player p, String rawCmd) {
+        if (rawCmd == null || rawCmd.isEmpty()) return;
+        String cmd = rawCmd.replace("%player%", p.getName()).replace("{player}", p.getName());
+        if (cmd.startsWith("player:")) {
+            p.performCommand(cmd.substring(7).trim());
+        } else if (cmd.startsWith("console:")) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.substring(8).trim());
+        } else if (cmd.startsWith("/")) {
+            p.performCommand(cmd.substring(1).trim());
+        } else {
+            p.performCommand(cmd);
+        }
     }
 }

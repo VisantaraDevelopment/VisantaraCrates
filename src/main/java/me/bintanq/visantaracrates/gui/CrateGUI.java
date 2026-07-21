@@ -590,7 +590,12 @@ public class CrateGUI {
                 for (String cmd : commands) {
                     String processed = cmd.replace("%player%", player.getName())
                             .replace("%amount%", String.valueOf(amount));
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), processed);
+                    if (processed.startsWith("player:")) {
+                        player.performCommand(processed.substring(7).trim());
+                    } else {
+                        String finalCmd = processed.startsWith("console:") ? processed.substring(8).trim() : processed;
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCmd);
+                    }
                 }
             }
         }
