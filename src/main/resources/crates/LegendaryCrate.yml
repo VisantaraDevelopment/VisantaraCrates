@@ -1,334 +1,723 @@
-id: "LegendaryCrate"
-displayName: "&6Legendary Crate"
-previewId: "default"
+id: LegendaryCrate
+displayName: '&6Legendary Crate'
+hologramLines: []
+hologramHeight: 1.2
+locations:
+- world: Testing
+  x: 507.0
+  y: -58.0
+  z: 149.0
+  yaw: 0.0
+  pitch: 0.0
+rewards:
+- id: reward_0
+  displayName: "+400 Gems"
+  weight: 12.25
+  rarity: COMMON
+  type: COMMAND
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: gem
+  crateId: null
+  commands:
+  - console:eco give %player% 400
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_1
+  displayName: "+30 Minutes Fly"
+  weight: 12.25
+  rarity: COMMON
+  type: COMMAND
+  material: null
+  amount: 30.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: fly_icon
+  crateId: null
+  commands:
+  - console:tf give %player% 30m
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_2
+  displayName: "+2 Slot Token"
+  weight: 12.25
+  rarity: COMMON
+  type: COMMAND
+  material: null
+  amount: 2.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: slot_token
+  crateId: null
+  commands:
+  - console:es giveslots slot_token %player% 2
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_3
+  displayName: "+200 Claim Blocks"
+  weight: 12.25
+  rarity: COMMON
+  type: COMMAND
+  material: null
+  amount: 200.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: add_claim_block_icon
+  crateId: null
+  commands:
+  - console:adjustbonusclaimblocks %player% 200
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_4
+  displayName: "+650 Gems"
+  weight: 7.25
+  rarity: RARE
+  type: COMMAND
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: gem
+  crateId: null
+  commands:
+  - console:eco give %player% 650
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_5
+  displayName: "+40 Minutes Fly"
+  weight: 7.25
+  rarity: RARE
+  type: COMMAND
+  material: null
+  amount: 40.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: fly_icon
+  crateId: null
+  commands:
+  - console:tf give %player% 40m
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_6
+  displayName: "+3 Slot Token"
+  weight: 7.25
+  rarity: RARE
+  type: COMMAND
+  material: null
+  amount: 3.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: slot_token
+  crateId: null
+  commands:
+  - console:es giveslots slot_token %player% 3
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_7
+  displayName: "+350 Claim Blocks"
+  weight: 7.25
+  rarity: RARE
+  type: COMMAND
+  material: null
+  amount: 350.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: add_claim_block_icon
+  crateId: null
+  commands:
+  - console:adjustbonusclaimblocks %player% 350
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_8
+  displayName: "+1000 Gems"
+  weight: 3.75
+  rarity: EPIC
+  type: COMMAND
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: gem
+  crateId: null
+  commands:
+  - console:eco give %player% 1000
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_9
+  displayName: "+60 Minutes Fly"
+  weight: 3.75
+  rarity: EPIC
+  type: COMMAND
+  material: null
+  amount: 60.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: fly_icon
+  crateId: null
+  commands:
+  - console:tf give %player% 1h
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_10
+  displayName: "+4 Slot Token"
+  weight: 3.75
+  rarity: EPIC
+  type: COMMAND
+  material: null
+  amount: 4.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: slot_token
+  crateId: null
+  commands:
+  - console:es giveslots slot_token %player% 4
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_11
+  displayName: "+500 Claim Blocks"
+  weight: 3.75
+  rarity: EPIC
+  type: COMMAND
+  material: null
+  amount: 500.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: add_claim_block_icon
+  crateId: null
+  commands:
+  - console:adjustbonusclaimblocks %player% 500
+  broadcast: false
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_12
+  displayName: "2x Legendary Crate Key"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: CRATE
+  material: null
+  amount: 2.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: null
+  mmoItemsId: null
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: LegendaryCrate
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_13
+  displayName: "Legendary Helmet"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: ARMOR
+  mmoItemsId: LEGENDARY_HELMET
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_14
+  displayName: "Legendary Chestplate"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: ARMOR
+  mmoItemsId: LEGENDARY_CHESTPLATE
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_15
+  displayName: "Legendary Leggings"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: ARMOR
+  mmoItemsId: LEGENDARY_LEGGINGS
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_16
+  displayName: "Legendary Boots"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: ARMOR
+  mmoItemsId: LEGENDARY_BOOTS
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_17
+  displayName: "Legendary Sword"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: SWORD
+  mmoItemsId: LEGENDARY_SWORD
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_18
+  displayName: "Legendary Pickaxe"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: TOOL
+  mmoItemsId: LEGENDARY_PICKAXE
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_19
+  displayName: "Legendary Axe"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: TOOL
+  mmoItemsId: LEGENDARY_AXE
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_20
+  displayName: "Legendary Shovel"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: TOOL
+  mmoItemsId: LEGENDARY_SHOVEL
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_21
+  displayName: "Legendary Hoe"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: TOOL
+  mmoItemsId: LEGENDARY_HOE
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+- id: reward_22
+  displayName: "Legendary Bow"
+  weight: 0.6364
+  rarity: LEGENDARY
+  type: MMOITEMS
+  material: null
+  amount: 1.0
+  itemName: null
+  lore: []
+  enchantments: []
+  customModelData: -1.0
+  mmoItemsType: BOW
+  mmoItemsId: LEGENDARY_BOW
+  itemsAdderId: null
+  oraxenId: null
+  nexoId: null
+  crateId: null
+  commands: []
+  broadcast: true
+  broadcastMessage: '&e{player} &7won &e{reward} &7from a crate!'
+cooldownMs: 0.0
 pity:
   enabled: true
-  threshold: 50
-  rareRarityMinimum: "RARE"
+  threshold: 50.0
+  rareRarityMinimum: RARE
   bonusChancePerOpen: 2.0
-  softPityStart: 40
+  softPityStart: 40.0
+preview:
+  items: {}
+  settings:
+    type: REWARDS_PREVIEW
+    title: '&0&lPreview &8» &e{crate} &7[Page {page}/{pages}]'
+    rows: 6.0
+    showPity: false
+    showKeyBalance: true
+    showChance: true
+    showWeight: false
+    chanceFormat: '&7Chance: &e{chance}%'
+  pagination:
+    slots: 10-16, 19-25, 28-34, 37-43
+  reward:
+    random-mode:
+      name: '&7%reward_name%'
+      lore:
+      - '%reward_lore%'
+      - ''
+      - '&eYour percentage: &6%percentage%%'
+      - '&eYour chance: &6%chance%%'
+    selective-mode:
+      name: '&7%reward_name%'
+      lore:
+      - '%reward_lore%'
+      - ''
+      - '&eRequired Keys: &6%required_keys%'
+  sortOrder: RARITY_DESC
+  showActualItem: true
+previewId: default
+massOpenEnabled: true
+massOpenLimit: -1.0
+openRateLimit: 0.0
+lifetimeOpenLimit: 0.0
+accessDeniedKnockback: false
+knockbackStrength: 0.6
+idleAnimation:
+  type: SIMPLE
+  particle: HAPPY_VILLAGER
+openAnimation:
+  type: SIMPLE
+  particle: HAPPY_VILLAGER
+guiAnimation: ROULETTE
+guiAnimationSpeed: 1.0
+particleAnimationSpeed: 1.0
+openSound: BLOCK_NOTE_BLOCK_HAT
+winSound: UI_TOAST_CHALLENGE_COMPLETE
 enabled: true
-openSound: "BLOCK_NOTE_BLOCK_HAT"
-winSound: "UI_TOAST_CHALLENGE_COMPLETE"
-rewards:
-  - id: "reward_0"
-    displayName: "&9+2 Rare Crate"
-    weight: 49.0
-    rarity: "COMMON"
-    type: "CRATE"
-    crateId: "RareCrate"
-    amount: 2
-  - id: "reward_1"
-    displayName: "&a+100 Claim Blocks"
-    weight: 49.0
-    rarity: "COMMON"
-    type: "COMMAND"
-    nexoId: "add_claim_block_icon"
-    amount: 1
-    commands:
-      - "console:adjustbonusclaimblocks %player% 100"
-  - id: "reward_2"
-    displayName: "&a+300 Claim Blocks"
-    weight: 49.0
-    rarity: "COMMON"
-    type: "COMMAND"
-    nexoId: "add_claim_block_icon"
-    amount: 1
-    commands:
-      - "console:adjustbonusclaimblocks %player% 300"
-  - id: "reward_3"
-    displayName: "&a+400 Claim Blocks"
-    weight: 49.0
-    rarity: "COMMON"
-    type: "COMMAND"
-    nexoId: "add_claim_block_icon"
-    amount: 1
-    commands:
-      - "console:adjustbonusclaimblocks %player% 400"
-  - id: "reward_4"
-    displayName: "&6+1 Legendary Crate"
-    weight: 29.0
-    rarity: "UNCOMMON"
-    type: "CRATE"
-    crateId: "LegendaryCrate"
-    amount: 1
-  - id: "reward_5"
-    displayName: "&9+20 Minutes Fly"
-    weight: 29.0
-    rarity: "COMMON"
-    type: "COMMAND"
-    nexoId: "fly_icon"
-    amount: 20
-    commands:
-      - "console:tf give %player% 20m"
-  - id: "reward_6"
-    displayName: "&b+400 Gems"
-    weight: 29.0
-    rarity: "COMMON"
-    type: "COMMAND"
-    nexoId: "gem"
-    amount: 1
-    commands:
-      - "console:eco give %player% 400"
-  - id: "reward_7"
-    displayName: "&b+500 Gems"
-    weight: 29.0
-    rarity: "COMMON"
-    type: "COMMAND"
-    nexoId: "gem"
-    amount: 1
-    commands:
-      - "console:eco give %player% 500"
-  - id: "reward_8"
-    displayName: "&9+1 Jam Fly"
-    weight: 15.0
-    rarity: "UNCOMMON"
-    type: "COMMAND"
-    nexoId: "fly_icon"
-    amount: 60
-    commands:
-      - "console:tf give %player% 1h"
-  - id: "reward_9"
-    displayName: "&b+1000 Gems"
-    weight: 15.0
-    rarity: "UNCOMMON"
-    type: "COMMAND"
-    nexoId: "gem"
-    amount: 1
-    commands:
-      - "console:eco give %player% 1000"
-  - id: "reward_10"
-    displayName: "&9+3 Rare Crate"
-    weight: 15.0
-    rarity: "UNCOMMON"
-    type: "CRATE"
-    crateId: "RareCrate"
-    amount: 3
-  - id: "reward_11"
-    displayName: "&9+5 Rare Crate"
-    weight: 15.0
-    rarity: "UNCOMMON"
-    type: "CRATE"
-    crateId: "RareCrate"
-    amount: 5
-  - id: "reward_12"
-    displayName: "&6+2 Legendary Crate"
-    weight: 15.0
-    rarity: "UNCOMMON"
-    type: "CRATE"
-    crateId: "LegendaryCrate"
-    amount: 2
-  - id: "reward_13"
-    displayName: "&6+3 Legendary Crate"
-    weight: 7.0
-    rarity: "RARE"
-    type: "CRATE"
-    crateId: "LegendaryCrate"
-    amount: 3
-    broadcast: true
-  - id: "reward_14"
-    displayName: "&e1x Slot Token"
-    weight: 29.0
-    rarity: "COMMON"
-    type: "COMMAND"
-    nexoId: "slot_token"
-    amount: 1
-    commands:
-      - "console:es giveslots slot_token %player% 1"
-  - id: "reward_15"
-    displayName: "&e2x Slot Token"
-    weight: 29.0
-    rarity: "COMMON"
-    type: "COMMAND"
-    nexoId: "slot_token"
-    amount: 2
-    commands:
-      - "console:es giveslots slot_token %player% 2"
-  - id: "reward_16"
-    displayName: "&e3x Slot Token"
-    weight: 15.0
-    rarity: "UNCOMMON"
-    type: "COMMAND"
-    nexoId: "slot_token"
-    amount: 3
-    commands:
-      - "console:es giveslots slot_token %player% 3"
-    broadcast: true
-  - id: "reward_17"
-    displayName: "&6Legendary Helmet"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "ARMOR"
-    mmoItemsId: "LEGENDARY_HELMET"
-    amount: 1
-    broadcast: true
-  - id: "reward_18"
-    displayName: "&6Legendary Chestplate"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "ARMOR"
-    mmoItemsId: "LEGENDARY_CHESTPLATE"
-    amount: 1
-    broadcast: true
-  - id: "reward_19"
-    displayName: "&6Legendary Leggings"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "ARMOR"
-    mmoItemsId: "LEGENDARY_LEGGINGS"
-    amount: 1
-    broadcast: true
-  - id: "reward_20"
-    displayName: "&6Legendary Boots"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "ARMOR"
-    mmoItemsId: "LEGENDARY_BOOTS"
-    amount: 1
-    broadcast: true
-  - id: "reward_21"
-    displayName: "&6Legendary Sword"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "SWORD"
-    mmoItemsId: "LEGENDARY_SWORD"
-    amount: 1
-    broadcast: true
-  - id: "reward_22"
-    displayName: "&6Legendary Shovel"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "TOOL"
-    mmoItemsId: "LEGENDARY_SHOVEL"
-    amount: 1
-    broadcast: true
-  - id: "reward_23"
-    displayName: "&6Legendary Pickaxe"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "TOOL"
-    mmoItemsId: "LEGENDARY_PICKAXE"
-    amount: 1
-    broadcast: true
-  - id: "reward_24"
-    displayName: "&6Legendary Axe"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "TOOL"
-    mmoItemsId: "LEGENDARY_AXE"
-    amount: 1
-    broadcast: true
-  - id: "reward_25"
-    displayName: "&6Legendary Hoe"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "TOOL"
-    mmoItemsId: "LEGENDARY_HOE"
-    amount: 1
-    broadcast: true
-  - id: "reward_26"
-    displayName: "&6Legendary Bow"
-    weight: 7.0
-    rarity: "LEGENDARY"
-    type: "MMOITEMS"
-    mmoItemsType: "BOW"
-    mmoItemsId: "LEGENDARY_BOW"
-    amount: 1
-    broadcast: true
-
 crate-type: FREE
-sound-on-open: "block.chest.open"
-sound-on-select: "block.note_block.bell"
-sound-on-deselect: "block.note_block.hat"
-sound-on-transition: "block.chest.open"
-sound-on-reroll: "block.anvil.use"
-sound-on-claim: "entity.player.levelup"
-sound-on-click: "ui.button.click"
-transition-ticks: 40
-
+sound-on-open: block.chest.open
+sound-on-select: block.note_block.bell
+sound-on-deselect: block.note_block.hat
+sound-on-transition: block.chest.open
+sound-on-reroll: block.anvil.use
+sound-on-claim: entity.player.levelup
+sound-on-click: ui.button.click
+transition-ticks: 40.0
+max-rerolls: 2.0
+chest-background:
+  closed: ''
+  open: ''
+  shift: -8.0
 titles:
   free:
-    closed: ""
-    open: ""
-    claim-off: ""
-    claim-on: ""
+    closed: 
+    open: 
+    claim-off: 
+    claim-on: 
   premium:
-    closed: ""
-    open: ""
-    claim-on-reroll-2: ""
-    claim-on-reroll-1: ""
-    claim-on-reroll-off: ""
-    claim-off-reroll-2: ""
-    claim-off-reroll-1: ""
-    claim-off-reroll-off: ""
-
+    closed: 
+    open: 
+    claim-on-reroll-2: 
+    claim-on-reroll-1: 
+    claim-on-reroll-off: 
+    claim-off-reroll-2: 
+    claim-off-reroll-1: 
+    claim-off-reroll-off: 
+  closed: CHEST_CLOSED
+  open: CHEST_OPEN
+  claim-off: CLAIM_OFF
+  claim-on: CLAIM_ON
+  reroll-1: REROLL_1
+  reroll-2: REROLL_2
+  reroll-off: REROLL_OFF
 slots:
+  reward-slots:
+  - 12.0
+  - 13.0
+  - 15.0
+  open-slot: 31.0
+  open-slots: []
+  claim-slot: 31.0
+  claim-slots: []
+  reroll-slot: 32.0
+  reroll-slots: []
   free:
-    reward-slots: [12, 13, 14]
-    open-slots: [30, 31, 32]
-    claim-slots: [30, 31, 32]
+    reward-slots:
+    - 12.0
+    - 13.0
+    - 14.0
+    open-slots:
+    - 30.0
+    - 31.0
+    - 32.0
+    claim-slots:
+    - 30.0
+    - 31.0
+    - 32.0
   premium:
-    reward-slots: [11, 12, 13, 14, 15]
-    open-slots: [30, 31, 32]
-    claim-slots: [28, 29, 30]
-    reroll-slots: [31, 32, 33]
-
+    reward-slots:
+    - 11.0
+    - 12.0
+    - 13.0
+    - 14.0
+    - 15.0
+    open-slots:
+    - 30.0
+    - 31.0
+    - 32.0
+    claim-slots:
+    - 28.0
+    - 29.0
+    - 30.0
+    reroll-slots:
+    - 31.0
+    - 32.0
+    - 33.0
 buttons:
+  open-button:
+    nexoId: ''
+    material: PAPER
+    customModelData: -1.0
+    displayName: ''
+    lore: []
+  open-button-inactive:
+    nexoId: ''
+    material: PAPER
+    customModelData: -1.0
+    displayName: ''
+    lore: []
+  open-button-shift: 0.0
+  claim-button-enabled:
+    nexoId: ''
+    material: PAPER
+    customModelData: -1.0
+    displayName: ''
+    lore: []
+  claim-button-disabled:
+    nexoId: ''
+    material: PAPER
+    customModelData: -1.0
+    displayName: ''
+    lore: []
+  claim-button-shift: 0.0
   select-button-selected:
-    nexoId: "crate_selector"
-    material: "PAPER"
-    customModelData: 1079
-    displayName: "&a✔ &f{reward}"
+    nexoId: crate_selector
+    material: PAPER
+    customModelData: 1079.0
+    displayName: '&a✔ &f{reward}'
+    lore: []
+  reroll-button:
+    nexoId: ''
+    material: PAPER
+    customModelData: -1.0
+    displayName: ''
+    lore: []
+  reroll-button-1:
+    nexoId: ''
+    material: PAPER
+    customModelData: -1.0
+    displayName: ''
+    lore: []
+  reroll-button-disabled:
+    nexoId: ''
+    material: PAPER
+    customModelData: -1.0
+    displayName: ''
+    lore: []
+  reroll-button-shift: 0.0
   gui-filler:
-    nexoId: "blank"
-    material: "GRAY_STAINED_GLASS_PANE"
-    customModelData: -1
-    displayName: "&f"
+    nexoId: blank
+    material: GRAY_STAINED_GLASS_PANE
+    customModelData: -1.0
+    displayName: '&f'
+    lore: []
   reward-slot-item:
-    nexoId: "blank"
-    material: "PAPER"
-    customModelData: -1
-    displayName: "&f"
+    nexoId: blank
+    material: PAPER
+    customModelData: -1.0
+    displayName: '&f'
+    lore: []
   open-slot-item:
-    nexoId: "blank"
-    material: "PAPER"
-    customModelData: -1
-    displayName: "&aClick to open"
+    nexoId: blank
+    material: PAPER
+    customModelData: -1.0
+    displayName: '&aClick to open'
+    lore: []
   claim-slot-item:
-    nexoId: "blank"
-    material: "PAPER"
-    customModelData: -1
-    displayName: "&aSelect and Click to claim"
+    nexoId: blank
+    material: PAPER
+    customModelData: -1.0
+    displayName: '&aSelect and Click to claim'
+    lore: []
   reroll-slot-item:
-    nexoId: "blank"
-    material: "PAPER"
-    customModelData: -1
-    displayName: "&aClick to reroll"
-
+    nexoId: blank
+    material: PAPER
+    customModelData: -1.0
+    displayName: '&aClick to reroll'
+    lore: []
+claim-commands:
+- cratecoin give %player% legendary %amount%
+physical-item:
+  material: CHEST
+  nexoId: ''
+  customModelData: -1.0
+  displayName: '&6{crate} &8(&7{type}&8)'
+  lore: []
 physical-items:
   free:
-    material: "PAPER"
-    nexoId: "legendary_crate"
-    customModelData: 1082
-    displayName: "&6Legendary Crate"
+    material: PAPER
+    nexoId: legendary_crate
+    customModelData: 1082.0
+    displayName: '&6Legendary Crate'
     lore:
-      - "&#419CD8Right click to open"
+    - '&#419CD8Right click to open'
   premium:
-    material: "PAPER"
-    nexoId: "legendary_crate_premium"
-    customModelData: 1084
-    displayName: "&6Premium Legendary Crate"
+    material: PAPER
+    nexoId: legendary_crate_premium
+    customModelData: 1084.0
+    displayName: '&6Premium Legendary Crate'
     lore:
-      - "&#419CD8Right click to open"
-
-claim-commands:
-  - "cratecoin give %player% legendary %amount%"
+    - '&#419CD8Right click to open'

@@ -1,6 +1,7 @@
 package me.bintanq.visantaracrates.manager;
 
 import me.bintanq.visantaracrates.VisantaraCrates;
+import me.bintanq.visantaracrates.model.CrateStoreConfig;
 import me.bintanq.visantaracrates.model.PreviewConfig;
 import me.bintanq.visantaracrates.serializer.GsonProvider;
 import me.bintanq.visantaracrates.util.Logger;
@@ -18,6 +19,7 @@ public class PreviewManager {
 
     private final VisantaraCrates plugin;
     private final ConcurrentHashMap<String, PreviewConfig> previewsRegistry = new ConcurrentHashMap<>();
+    private CrateStoreConfig crateStoreConfig;
     private File previewsDir;
 
     public PreviewManager(VisantaraCrates plugin) {
@@ -98,11 +100,40 @@ public class PreviewManager {
             }
         }
         Logger.info("Loaded &e" + loaded + " &fpreview configurations.");
+
+        // Load crate-store config
+        loadCrateStoreConfig();
     }
 
     public PreviewConfig getPreviewConfig(String id) {
         if (id == null) return null;
         return previewsRegistry.get(id.toLowerCase());
+    }
+
+    public CrateStoreConfig getCrateStoreConfig() {
+        return crateStoreConfig;
+    }
+
+    private void loadCrateStoreConfig() {
+        File file = new File(previewsDir, "crate-store.yml");
+        if (!file.exists()) {
+            Logger.warn("crate-store.yml not found in previews/ — using defaults.");
+            crateStoreConfig = new CrateStoreConfig();
+            return;
+        }
+        try {
+            org.bukkit.configuration.file.YamlConfiguration yaml =
+                    org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(file);
+            Map<String, Object> map = sectionToMap(yaml);
+            String json = me.bintanq.visantaracrates.serializer.GsonProvider.getGson().toJson(map);
+            crateStoreConfig = me.bintanq.visantaracrates.serializer.GsonProvider.getGson()
+                    .fromJson(json, CrateStoreConfig.class);
+            Logger.info("Loaded crate store preview config.");
+        } catch (Exception e) {
+            Logger.severe("Failed to load crate-store.yml: " + e.getMessage());
+            e.printStackTrace();
+            crateStoreConfig = new CrateStoreConfig();
+        }
     }
 
     public void savePreview(String id, PreviewConfig cfg) {

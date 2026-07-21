@@ -575,7 +575,7 @@ public class CrateManager {
 
         String lowestRarity  = rarities.isEmpty() ? "COMMON"  : rarities.get(0).getId();
         String midRarity     = rarities.size() > 2 ? rarities.get(2).getId() : rarities.get(rarities.size() / 2).getId();
-        String highestRarity = rarities.isEmpty() ? "MYTHIC"  : rarities.get(rarities.size() - 1).getId();
+        String highestRarity = rarities.isEmpty() ? "LEGENDARY"  : rarities.get(rarities.size() - 1).getId();
         String pityMinRarity = rarities.size() >= 5 ? rarities.get(rarities.size() - 2).getId() : highestRarity;
 
         String json = """

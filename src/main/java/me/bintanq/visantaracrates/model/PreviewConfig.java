@@ -119,7 +119,7 @@ public class PreviewConfig {
 
     public static class RewardDisplayConfig {
         @SerializedName("random-mode")
-        private RewardTemplate randomMode = new RewardTemplate("&7%reward_name%", List.of("%reward_lore%", "", "&eYour percentage: &6%percentage%%", "&eYour chance: &6%chance%%"));
+        private RewardTemplate randomMode = new RewardTemplate("&7%reward_name%", List.of("%reward_lore%"));
 
         @SerializedName("selective-mode")
         private RewardTemplate selectiveMode = new RewardTemplate("&7%reward_name%", List.of("%reward_lore%", "", "&eRequired Keys: &6%required_keys%"));

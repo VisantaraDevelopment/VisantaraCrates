@@ -106,7 +106,7 @@ public class RarityManager {
     }
 
     public String getLowestId()  { return rarities.isEmpty() ? "COMMON" : rarities.get(0).getId(); }
-    public String getHighestId() { return rarities.isEmpty() ? "MYTHIC"  : rarities.get(rarities.size() - 1).getId(); }
+    public String getHighestId() { return rarities.isEmpty() ? "LEGENDARY"  : rarities.get(rarities.size() - 1).getId(); }
 
     public void saveRarities(List<RarityDefinition> updated) {
         File file = new File(plugin.getDataFolder(), "rarities.yml");
@@ -163,12 +163,10 @@ public class RarityManager {
 
     private List<RarityDefinition> defaultRarities() {
         return List.of(
-                new RarityDefinition("COMMON",    "Common",    "&f", "#aaaaaa", 0, "GRAY_STAINED_GLASS_PANE",    "⬜"),
-                new RarityDefinition("UNCOMMON",  "Uncommon",  "&a", "#00d97e", 1, "GREEN_STAINED_GLASS_PANE",   "🟩"),
-                new RarityDefinition("RARE",      "Rare",      "&9", "#4488ff", 2, "BLUE_STAINED_GLASS_PANE",    "🔷"),
-                new RarityDefinition("EPIC",      "Epic",      "&5", "#9b59f5", 3, "MAGENTA_STAINED_GLASS_PANE", "🟣"),
-                new RarityDefinition("LEGENDARY", "Legendary", "&6", "#f5a623", 4, "ORANGE_STAINED_GLASS_PANE",  "🟡"),
-                new RarityDefinition("MYTHIC",    "Mythic",    "&d", "#ff44aa", 5, "PURPLE_STAINED_GLASS_PANE",  "🩷"));
+                new RarityDefinition("COMMON",    "Common",    "&#B9B9B9", "#B9B9B9", 0, "GRAY_STAINED_GLASS_PANE",    ""),
+                new RarityDefinition("RARE",      "Rare",      "&#00EAE2", "#00EAE2", 1, "BLUE_STAINED_GLASS_PANE",    ""),
+                new RarityDefinition("EPIC",      "Epic",      "&#9C00F6", "#9C00F6", 2, "MAGENTA_STAINED_GLASS_PANE", ""),
+                new RarityDefinition("LEGENDARY", "Legendary", "&#FFC800", "#FFC800", 3, "ORANGE_STAINED_GLASS_PANE",  ""));
     }
 
     private RarityDefinition getFallback() {

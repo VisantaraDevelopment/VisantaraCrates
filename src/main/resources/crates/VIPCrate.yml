@@ -12,83 +12,84 @@ openSound: "BLOCK_NOTE_BLOCK_HAT"
 winSound: "UI_TOAST_CHALLENGE_COMPLETE"
 rewards:
   - id: "reward_0"
-    displayName: "&fBread"
-    weight: 49.0
-    rarity: "COMMON"
-    type: "VANILLA"
-    material: "BREAD"
-    amount: 8
-  - id: "reward_1"
-    displayName: "&fCoal"
-    weight: 49.0
-    rarity: "COMMON"
-    type: "VANILLA"
-    material: "COAL"
-    amount: 8
-  - id: "reward_2"
-    displayName: "&fGold Ingot"
-    weight: 49.0
-    rarity: "COMMON"
-    type: "VANILLA"
-    material: "GOLD_INGOT"
-    amount: 4
-  - id: "reward_3"
-    displayName: "&fIron Ingot"
-    weight: 49.0
+    displayName: "+4 Iron"
+    weight: 12.25
     rarity: "COMMON"
     type: "VANILLA"
     material: "IRON_INGOT"
     amount: 4
-  - id: "reward_4"
-    displayName: "&fDiamond"
-    weight: 50.0
-    rarity: "UNCOMMON"
-    type: "VANILLA"
-    material: "DIAMOND"
-    amount: 2
-  - id: "reward_5"
-    displayName: "&a+2 Vote Crate"
-    weight: 7.0
-    rarity: "RARE"
-    type: "CRATE"
-    crateId: "VIPCrate"
-    amount: 2
-    broadcast: true
-  - id: "reward_6"
-    displayName: "&9+1 Rare Crate"
-    weight: 7.0
-    rarity: "RARE"
-    type: "CRATE"
-    crateId: "RareCrate"
-    amount: 1
-    broadcast: true
-  - id: "reward_7"
-    displayName: "&b+50 Gems"
-    weight: 29.0
+  - id: "reward_1"
+    displayName: "+4 Gold"
+    weight: 12.25
     rarity: "COMMON"
+    type: "VANILLA"
+    material: "GOLD_INGOT"
+    amount: 4
+  - id: "reward_2"
+    displayName: "+8 Coal"
+    weight: 12.25
+    rarity: "COMMON"
+    type: "VANILLA"
+    material: "COAL"
+    amount: 8
+  - id: "reward_3"
+    displayName: "+8 Bread"
+    weight: 12.25
+    rarity: "COMMON"
+    type: "VANILLA"
+    material: "BREAD"
+    amount: 8
+  - id: "reward_4"
+    displayName: "+50 Claim Blocks"
+    weight: 9.6667
+    rarity: "RARE"
     type: "COMMAND"
-    nexoId: "gem"
+    nexoId: "add_claim_block_icon"
     amount: 1
     commands:
-      - "console:eco give %player% 50"
-  - id: "reward_8"
-    displayName: "&b+100 Gems"
-    weight: 29.0
-    rarity: "COMMON"
+      - "console:adjustbonusclaimblocks %player% 50"
+  - id: "reward_5"
+    displayName: "+100 Gems"
+    weight: 9.6667
+    rarity: "RARE"
     type: "COMMAND"
     nexoId: "gem"
     amount: 1
     commands:
       - "console:eco give %player% 100"
-  - id: "reward_9"
-    displayName: "&a+100 Claim Blocks"
-    weight: 29.0
-    rarity: "COMMON"
+  - id: "reward_6"
+    displayName: "+2 Diamond"
+    weight: 9.6667
+    rarity: "RARE"
+    type: "VANILLA"
+    material: "DIAMOND"
+    amount: 2
+  - id: "reward_7"
+    displayName: "+100 Claim Blocks"
+    weight: 7.5
+    rarity: "EPIC"
     type: "COMMAND"
     nexoId: "add_claim_block_icon"
     amount: 1
     commands:
       - "console:adjustbonusclaimblocks %player% 100"
+  - id: "reward_8"
+    displayName: "+10 Minutes Fly"
+    weight: 7.5
+    rarity: "EPIC"
+    type: "COMMAND"
+    nexoId: "fly_icon"
+    amount: 10
+    commands:
+      - "console:tf give %player% 10m"
+  - id: "reward_9"
+    displayName: "1x Rare Crate"
+    weight: 7.0
+    rarity: "LEGENDARY"
+    type: "CRATE"
+    crateId: "RareCrate"
+    amount: 1
+    broadcast: true
 
 crate-type: FREE
 sound-on-open: "block.chest.open"

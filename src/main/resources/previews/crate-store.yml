@@ -1,0 +1,108 @@
+# ─────────────────────────────────────────────────────────
+# Crate Store Preview GUI Configuration
+# This config controls the /vc preview <player> <crate> GUI
+# ─────────────────────────────────────────────────────────
+
+# Title of the GUI (fallback if not specified in titles map below)
+title: ""
+
+# Titles map for each specific crate ID (case-insensitive keys)
+# E.g. Vote (VIPCrate), Rare (RareCrate), Legendary (LegendaryCrate)
+titles:
+  VIPCrate: ""
+  RareCrate: ""
+  LegendaryCrate: ""
+
+# Crate IDs for which the Buy and Coin Exchange buttons should be hidden (case-insensitive)
+hide-buttons-for:
+  - "VIPCrate"
+
+# Inventory rows mapping per crate (defaults to the 'rows' property below)
+# Since VIPCrate has no buy/exchange buttons, we make it only 4 rows
+crate-rows:
+  VIPCrate: 4
+
+# Default GUI size (5 rows = 45 slots)
+rows: 5
+
+# Store icon (left area) — displayed as a static item in slot 19
+store-icon:
+  slots: [19]
+  material: CHEST
+  nexo-id: ""
+  display-name: "&aCrate Store"
+  lore: []
+
+# Custom store icons per crate ID (optional override)
+# You can customize material, nexo-id, custom-model-data, display-name and lore per crate.
+# If not configured here, it will automatically fall back to the crate's physical item.
+store-icons:
+  VIPCrate:
+    material: PAPER
+    nexo-id: "vote_crate_store"
+    custom-model-data: 1087
+    display-name: "&aVote Crate Store"
+    lore:
+      - "&7Get this crate from &a/vote"
+  RareCrate:
+    material: PAPER
+    nexo-id: "rare_crate_store"
+    custom-model-data: 1086
+    display-name: "&bRare Crate Store"
+    lore:
+      - "&7Click &aBuy &7button to buy this Crate"
+  LegendaryCrate:
+    material: PAPER
+    nexo-id: "legendary_crate_store"
+    custom-model-data: 1085
+    display-name: "&eLegendary Crate Store"
+    lore:
+      - "&7Click &aBuy &7button to buy this Crate"
+
+# Rewards pagination area (slot range string, same format as default.yml)
+reward-slots: "12-16, 21-25, 30-34"
+
+# Arrow navigation (page up / page down)
+arrow-up:
+  slot: 17
+  material: PAPER
+  nexo-id: "crates_preview_up_button"
+  display-name: "&ePrevious Page"
+
+arrow-down:
+  slot: 35
+  material: PAPER
+  nexo-id: "crates_preview_down_button"
+  display-name: "&eNext Page"
+
+# Buy button — executes command when clicked
+buy-button:
+  slots: [36, 37, 38]
+  material: PAPER
+  nexo-id: "blank"
+  display-name: "&aBuy"
+  lore:
+    - "&7Click to open the crate store"
+  command: "store"
+
+# Coin Exchange button — executes command when clicked
+exchange-button:
+  slots: [39, 40, 41, 42, 43]
+  material: PAPER
+  nexo-id: "blank"
+  display-name: "&bCoin Exchange"
+  lore:
+    - "&7Click to open the exchange menu"
+  command: "cratecoin gui"
+
+# Filler item for all remaining empty slots
+filler:
+  material: GRAY_STAINED_GLASS_PANE
+  nexo-id: "blank"
+  display-name: "&r"
+
+# Reward item display format
+reward:
+  name: "&7%reward_name%"
+  lore:
+    - "%reward_lore%"

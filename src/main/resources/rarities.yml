@@ -22,51 +22,35 @@ rarities:
 
   common:
     displayName: "Common"
-    color: "&f"
-    hexColor: "#aaaaaa"
+    color: "&#B9B9B9"
+    hexColor: "#B9B9B9"
     order: 0
     borderMaterial: "GRAY_STAINED_GLASS_PANE"
-    icon: "⬜"
-
-  uncommon:
-    displayName: "Uncommon"
-    color: "&a"
-    hexColor: "#00d97e"
-    order: 1
-    borderMaterial: "GREEN_STAINED_GLASS_PANE"
-    icon: "🟩"
+    icon: ""
 
   rare:
     displayName: "Rare"
-    color: "&9"
-    hexColor: "#4488ff"
-    order: 2
+    color: "&#00EAE2"
+    hexColor: "#00EAE2"
+    order: 1
     borderMaterial: "BLUE_STAINED_GLASS_PANE"
-    icon: "🔷"
+    icon: ""
 
   epic:
     displayName: "Epic"
-    color: "&5"
-    hexColor: "#9b59f5"
-    order: 3
+    color: "&#9C00F6"
+    hexColor: "#9C00F6"
+    order: 2
     borderMaterial: "MAGENTA_STAINED_GLASS_PANE"
-    icon: "🟣"
+    icon: ""
 
   legendary:
     displayName: "Legendary"
-    color: "&6"
-    hexColor: "#f5a623"
-    order: 4
+    color: "&#FFC800"
+    hexColor: "#FFC800"
+    order: 3
     borderMaterial: "ORANGE_STAINED_GLASS_PANE"
-    icon: "🟡"
-
-  mythic:
-    displayName: "Mythic"
-    color: "&d"
-    hexColor: "#ff44aa"
-    order: 5
-    borderMaterial: "PURPLE_STAINED_GLASS_PANE"
-    icon: "🩷"
+    icon: ""
 
 # ─── CUSTOM RARITY EXAMPLES (uncomment to enable) ───────────────────
 #

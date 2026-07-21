@@ -12,83 +12,125 @@ openSound: "BLOCK_NOTE_BLOCK_HAT"
 winSound: "UI_TOAST_CHALLENGE_COMPLETE"
 rewards:
   - id: "reward_0"
-    displayName: "&9+5 Minutes Fly"
-    weight: 49.0
+    displayName: "+2 Rare Coins"
+    weight: 9.8
     rarity: "COMMON"
     type: "COMMAND"
-    nexoId: "fly_icon"
-    amount: 5
+    nexoId: "rare_coin"
+    amount: 2
     commands:
-      - "console:tf give %player% 5m"
+      - "console:cratecoin give %player% rare 2"
   - id: "reward_1"
-    displayName: "&b+200 Gems"
-    weight: 29.0
+    displayName: "+100 Gems"
+    weight: 9.8
     rarity: "COMMON"
     type: "COMMAND"
     nexoId: "gem"
     amount: 1
     commands:
-      - "console:eco give %player% 200"
+      - "console:eco give %player% 100"
   - id: "reward_2"
-    displayName: "&b+350 Gems"
-    weight: 29.0
+    displayName: "+10 Minutes Fly"
+    weight: 9.8
     rarity: "COMMON"
-    type: "COMMAND"
-    nexoId: "gem"
-    amount: 1
-    commands:
-      - "console:eco give %player% 350"
-  - id: "reward_3"
-    displayName: "&9+10 Minutes Fly"
-    weight: 15.0
-    rarity: "UNCOMMON"
     type: "COMMAND"
     nexoId: "fly_icon"
     amount: 10
     commands:
       - "console:tf give %player% 10m"
-  - id: "reward_4"
-    displayName: "&9+2 Rare Crate"
-    weight: 15.0
-    rarity: "UNCOMMON"
-    type: "CRATE"
-    crateId: "RareCrate"
+  - id: "reward_3"
+    displayName: "+2 Obsidian Pieces"
+    weight: 9.8
+    rarity: "COMMON"
+    type: "NEXO"
+    nexoId: "obsidian_piece"
     amount: 2
-    broadcast: true
+  - id: "reward_4"
+    displayName: "+2 Snowy Seed"
+    weight: 9.8
+    rarity: "COMMON"
+    type: "NEXO"
+    nexoId: "snowy_seed"
+    amount: 2
   - id: "reward_5"
-    displayName: "&a+100 Claim Blocks"
-    weight: 29.0
-    rarity: "COMMON"
+    displayName: "+250 Gems"
+    weight: 7.25
+    rarity: "RARE"
     type: "COMMAND"
-    nexoId: "add_claim_block_icon"
+    nexoId: "gem"
     amount: 1
     commands:
-      - "console:adjustbonusclaimblocks %player% 100"
+      - "console:eco give %player% 250"
   - id: "reward_6"
-    displayName: "&a+300 Claim Blocks"
-    weight: 29.0
-    rarity: "COMMON"
+    displayName: "+20 Minutes Fly"
+    weight: 7.25
+    rarity: "RARE"
     type: "COMMAND"
-    nexoId: "add_claim_block_icon"
-    amount: 1
+    nexoId: "fly_icon"
+    amount: 20
     commands:
-      - "console:adjustbonusclaimblocks %player% 300"
+      - "console:tf give %player% 20m"
   - id: "reward_7"
-    displayName: "&e1x Slot Token"
-    weight: 7.0
+    displayName: "+1 Slot Token"
+    weight: 7.25
     rarity: "RARE"
     type: "COMMAND"
     nexoId: "slot_token"
     amount: 1
     commands:
-      - "console:enchantslots give %player% test_expander 1"
+      - "console:es giveslots slot_token %player% 1"
   - id: "reward_8"
-    displayName: "&6+1 Legendary Crate"
-    weight: 7.0
+    displayName: "+150 Claim Blocks"
+    weight: 7.25
     rarity: "RARE"
+    type: "COMMAND"
+    nexoId: "add_claim_block_icon"
+    amount: 1
+    commands:
+      - "console:adjustbonusclaimblocks %player% 150"
+  - id: "reward_9"
+    displayName: "+30 Minutes Fly"
+    weight: 5.0
+    rarity: "EPIC"
+    type: "COMMAND"
+    nexoId: "fly_icon"
+    amount: 30
+    commands:
+      - "console:tf give %player% 30m"
+  - id: "reward_10"
+    displayName: "+400 Balance"
+    weight: 5.0
+    rarity: "EPIC"
+    type: "COMMAND"
+    nexoId: "gem"
+    amount: 1
+    commands:
+      - "console:eco give %player% 400"
+  - id: "reward_11"
+    displayName: "+2 Slot Token"
+    weight: 5.0
+    rarity: "EPIC"
+    type: "COMMAND"
+    nexoId: "slot_token"
+    amount: 2
+    commands:
+      - "console:es giveslots slot_token %player% 2"
+  - id: "reward_12"
+    displayName: "+1 Legendary Crate"
+    weight: 3.5
+    rarity: "LEGENDARY"
     type: "CRATE"
     crateId: "LegendaryCrate"
     amount: 1
+    broadcast: true
+  - id: "reward_13"
+    displayName: "+2 Rare Crate"
+    weight: 3.5
+    rarity: "LEGENDARY"
+    type: "CRATE"
+    crateId: "RareCrate"
+    amount: 2
+    broadcast: true
 
 crate-type: FREE
 sound-on-open: "block.chest.open"

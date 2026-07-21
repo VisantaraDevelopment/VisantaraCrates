@@ -44,6 +44,7 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
             case "pity"      -> cmdPity(sender, args);
             case "resetpity" -> cmdResetPity(sender, args);
             case "resetlifetime" -> cmdResetLifetime(sender, args);
+            case "preview"   -> cmdPreview(sender, args);
             default          -> sendHelp(sender);
         }
         return true;
@@ -367,6 +368,29 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
                 });
     }
 
+    private void cmdPreview(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("VisantaraCrates.admin")) { MessageManager.sendNoPermission(sender); return; }
+        if (args.length < 3) {
+            sender.sendMessage(colorize("&cUsage: /vc preview <player> <crateId>"));
+            return;
+        }
+
+        Player target = Bukkit.getPlayer(args[1]);
+        if (target == null) {
+            MessageManager.sendPlayerNotFound(sender, args[1]);
+            return;
+        }
+
+        Crate crate = plugin.getCrateManager().getCrate(args[2]);
+        if (crate == null) {
+            MessageManager.sendCrateNotFound(sender, args[2]);
+            return;
+        }
+
+        new me.bintanq.visantaracrates.gui.CrateStoreGUI(plugin).open(target, crate);
+        sender.sendMessage(colorize("&aOpened crate store preview of '" + crate.getId() + "' for player " + target.getName()));
+    }
+
     private void sendHelp(CommandSender sender) {
         MessageManager.send(sender, "help-header");
 
@@ -383,6 +407,7 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
         if (admin && plugin.isPityEnabled()) MessageManager.send(sender, "help-pity");
         if (admin && plugin.isPityEnabled()) MessageManager.send(sender, "help-resetpity");
         if (admin) MessageManager.send(sender, "help-resetlifetime");
+        if (admin) sender.sendMessage(colorize("&8/vc preview <player> <crateId> &7- Open crate store preview"));
 
         if (admin) {
             for (String key : List.of("controls-header","ctrl-left","ctrl-right","ctrl-shift")) {
@@ -400,7 +425,7 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             List<String> options = new ArrayList<>(List.of("info", "list"));
             if (admin) {
-                options.addAll(List.of("reload", "open", "setloc", "delloc", "resetlifetime"));
+                options.addAll(List.of("reload", "open", "setloc", "delloc", "resetlifetime", "preview"));
                 if (plugin.isPityEnabled()) {
                     options.addAll(List.of("pity", "resetpity"));
                 }
@@ -431,6 +456,10 @@ public class VisantaraCratesCommand implements CommandExecutor, TabCompleter {
                             : args.length == 3 ? filter(crateIds(), args[2])
                             : List.of()) : List.of();
             case "resetlifetime" ->
+                    admin ? (args.length == 2 ? filter(onlinePlayers(), args[1])
+                            : args.length == 3 ? filter(crateIds(), args[2])
+                            : List.of()) : List.of();
+            case "preview" ->
                     admin ? (args.length == 2 ? filter(onlinePlayers(), args[1])
                             : args.length == 3 ? filter(crateIds(), args[2])
                             : List.of()) : List.of();

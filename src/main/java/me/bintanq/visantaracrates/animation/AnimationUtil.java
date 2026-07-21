@@ -107,22 +107,36 @@ public final class AnimationUtil {
 
         base.setAmount(Math.max(1, reward.getAmount()));
 
-        if (reward.getDisplayName() != null && !reward.getDisplayName().isEmpty()) {
-            ItemMeta meta = base.getItemMeta();
-            if (meta != null) {
-                String displayName = reward.getDisplayName();
+        ItemMeta meta = base.getItemMeta();
+        if (meta != null) {
+            me.bintanq.visantaracrates.VisantaraCrates plugin = me.bintanq.visantaracrates.VisantaraCrates.getInstance();
+            if (plugin != null) {
+                me.bintanq.visantaracrates.model.RarityDefinition rarityDef = plugin.getRarityManager().get(reward.getRarity());
+                String rawName = reward.getDisplayName() != null && !reward.getDisplayName().isEmpty()
+                        ? reward.getDisplayName().replace("{amount}", String.valueOf(reward.getAmount()))
+                        : reward.getId();
+                if (reward.getAmount() > 1 && !rawName.contains(String.valueOf(reward.getAmount()))) {
+                    rawName = rawName + " &7(x" + reward.getAmount() + ")";
+                }
+                rawName = stripColor(rawName);
+                String tag = rarityDef.getIcon();
+                String rarityColorCode = rarityDef.getColor();
+                String displayName = tag + " " + rarityColorCode + rawName;
+                meta.setDisplayName(colorize(displayName));
+            } else {
+                String displayName = reward.getDisplayName() != null ? reward.getDisplayName() : reward.getId();
                 displayName = displayName.replace("{amount}", String.valueOf(reward.getAmount()));
                 if (reward.getAmount() > 1 && !displayName.contains(String.valueOf(reward.getAmount()))) {
                     displayName = displayName + " &7(x" + reward.getAmount() + ")";
                 }
                 meta.setDisplayName(fixItalic(displayName));
-                if (reward.getLore() != null && !reward.getLore().isEmpty()) {
-                    meta.setLore(reward.getLore().stream()
-                            .map(AnimationUtil::fixItalic)
-                            .toList());
-                }
-                base.setItemMeta(meta);
             }
+            if (reward.getLore() != null && !reward.getLore().isEmpty()) {
+                meta.setLore(reward.getLore().stream()
+                        .map(AnimationUtil::fixItalic)
+                        .toList());
+            }
+            base.setItemMeta(meta);
         }
         return base;
     }
@@ -180,5 +194,27 @@ public final class AnimationUtil {
         String colored = s.replace("&", "\u00A7");
         if (colored.startsWith("\u00A7")) return colored;
         return "\u00A7r" + colored;
+    }
+
+    private static String colorize(String s) {
+        if (s == null) return "";
+        java.util.regex.Pattern hexPattern = java.util.regex.Pattern.compile("&#([a-fA-F0-9]{6})");
+        java.util.regex.Matcher matcher = hexPattern.matcher(s);
+        StringBuilder sb = new StringBuilder();
+        while (matcher.find()) {
+            String hex = matcher.group(1);
+            StringBuilder builder = new StringBuilder("§x");
+            for (char c : hex.toCharArray()) {
+                builder.append("§").append(c);
+            }
+            matcher.appendReplacement(sb, builder.toString());
+        }
+        matcher.appendTail(sb);
+        return sb.toString().replace("&", "§");
+    }
+
+    private static String stripColor(String s) {
+        if (s == null) return "";
+        return org.bukkit.ChatColor.stripColor(colorize(s));
     }
 }

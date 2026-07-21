@@ -66,6 +66,7 @@ public final class VisantaraCrates extends JavaPlugin {
 
         saveDefaultConfig();
         saveResource("previews/default.yml", false);
+        saveResource("previews/crate-store.yml", false);
         saveResource("crates/RareCrate.yml", false);
         saveResource("crates/VIPCrate.yml", false);
         saveResource("crates/LegendaryCrate.yml", false);

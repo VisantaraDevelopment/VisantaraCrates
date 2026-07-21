@@ -1,4 +1,4 @@
-sortOrder: RARITY_DESC
+sortOrder: RARITY_ASC
 showActualItem: true
 settings:
   type: REWARDS_PREVIEW
@@ -80,10 +80,6 @@ reward:
     name: '&7%reward_name%'
     lore:
     - '%reward_lore%'
-    - ''
-    - '&eYour percentage: &6%percentage%%'
-    - '&eYour chance: &6%chance%%'
-    - ''
   selective-mode:
     name: '&7%reward_name%'
     lore:

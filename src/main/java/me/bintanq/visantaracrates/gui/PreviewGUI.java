@@ -174,15 +174,14 @@ public class PreviewGUI {
         ItemMeta meta = display.getItemMeta();
         if (meta == null) return display;
 
-        String rarityColor = plugin.getRarityManager().getColor(reward.getRarity());
-
         // 1. Resolve Display Name
-        String nameTemplate = cfg.getReward().getRandomMode().getName();
-        String rewardName = reward.getDisplayName() != null && !reward.getDisplayName().isEmpty()
-                ? colorize(reward.getDisplayName())
-                : rarityColor + reward.getId();
-        
-        String displayName = colorize(nameTemplate).replace("%reward_name%", rewardName);
+        me.bintanq.visantaracrates.model.RarityDefinition rarityDef = plugin.getRarityManager().get(reward.getRarity());
+        String rawName = reward.getDisplayName() != null && !reward.getDisplayName().isEmpty()
+                ? stripColor(reward.getDisplayName())
+                : reward.getId();
+        String tag = rarityDef.getIcon();
+        String rarityColorCode = rarityDef.getColor();
+        String displayName = colorize(tag + " " + rarityColorCode + rawName);
         meta.setDisplayName(displayName.startsWith("\u00A7") ? displayName : "\u00A7r" + displayName);
 
         // 2. Resolve Lore Template
@@ -203,6 +202,9 @@ public class PreviewGUI {
         String keysStr = "";
 
         for (String line : templateLines) {
+            if (line.contains("%percentage%") || line.contains("%chance%")) {
+                continue;
+            }
             if (line.contains("%reward_lore%")) {
                 if (reward.getLore() != null) {
                     for (String rl : reward.getLore()) {
@@ -343,7 +345,25 @@ public class PreviewGUI {
     }
 
     private String colorize(String s) {
-        return s == null ? "" : s.replace("&", "\u00A7");
+        if (s == null) return "";
+        java.util.regex.Pattern hexPattern = java.util.regex.Pattern.compile("&#([a-fA-F0-9]{6})");
+        java.util.regex.Matcher matcher = hexPattern.matcher(s);
+        StringBuilder sb = new StringBuilder();
+        while (matcher.find()) {
+            String hex = matcher.group(1);
+            StringBuilder builder = new StringBuilder("§x");
+            for (char c : hex.toCharArray()) {
+                builder.append("§").append(c);
+            }
+            matcher.appendReplacement(sb, builder.toString());
+        }
+        matcher.appendTail(sb);
+        return sb.toString().replace("&", "§");
+    }
+
+    private String stripColor(String s) {
+        if (s == null) return "";
+        return org.bukkit.ChatColor.stripColor(colorize(s));
     }
 
     /* ─────────────────────── Slot Range Parser ─────────────────────── */
